@@ -1,21 +1,145 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* General App Styling */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  margin: 10px;
+}
+
+/* Header Styling */
+.header {
+  background-color: white;  
+  color: white;
+  padding: 10px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  color: #FF9F1C;
+  font-weight: bolder;
+  font-size: 45px;
+  margin: 0;
+}
+
+.header-title .highlight {
+  color: #FFC15E;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.header-button {
+  background-color: #FF9F1C;
+  font-weight: bold;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.header-button:hover {
+  background-color: #bd7615;
+}
+
+/* Navbar Styling */
+.navbar {
+  display: flex;
+  justify-content: left;
+  background-color: #FFC15E;
+  padding: 10px;
+}
+
+.nav-link {
+  color: black;
+  background-color: #FF9F1C;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-right: 10px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.nav-link:hover {
+  background-color: #bd7615;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* STYLINGS FOR SEARCH PAGE */
+
+.filter {
+  display: flex; /* Align items horizontally */
+  gap: 20px; /* Add space between label-input pairs */
+  align-items: center; /* Align inputs and labels vertically */
+  border: 2px solid black; /* Add a black border with 2px thickness */
+  padding: 10px; /* Add padding inside the border */  
+}
+
+.filter label {
+  display: flex;
+  align-items: center; /* Ensure label and input align */
+  gap: 5px; /* Add space between label text and input */
+}
+
+.searchbox {
+  border: 2px solid black; /* Add a black border with 2px thickness */
+  padding: 10px; /* Add padding inside the border */
+  margin-top: 1px;
+}
+
+.searchrest {
+  display: flex; /* Align items horizontally */
+  gap: 20px; /* Add space between label-input pairs */
+  align-items: center; /* Align inputs and labels vertically */ 
+  border: 2px solid black; /* Add a black border with 2px thickness */
+  padding: 20px; /* Add padding inside the border */
+  border-radius: 8px; /* Optional: Rounded corners */
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* STYLINGS FOR FIND RESERVATION */
+
+.findbox {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  gap: 10px; /* Optional: Adds space between items */
+  width: 25vw;
+  border: 2px solid black; /* Add a black border with 2px thickness */
+  padding: 10px; /* Add padding inside the border */
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+/* STYLINGS FOR MAKE RESERVATION */
+.makeres {
+  display: flex; /* Align items horizontally */
+  gap: 20px; /* Add space between label-input pairs */
+  align-items: center; /* Align inputs and labels vertically */ 
+  border: 2px solid black; /* Add a black border with 2px thickness */
+  padding: 10px; /* Add padding inside the border */
+  border-radius: 8px; /* Optional: Rounded corners */
 }
