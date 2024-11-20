@@ -8,11 +8,11 @@ export const handler = async (event) => {
         database: "tables4u"
     })
     
-    let getRestaurant = (username, password) =>{
+    let getRestaurants = (username) =>{
         return new Promise((resolve, reject) => {
             pool.query('SELECT * FROM restaurants WHERE username=?', [username], (error, row) => {
-                if(error || row.length != 1 || row[0].password != password){reject("invalid credentials")}
-                resolve(row[0].credential)
+                if(error || row.length != 1){reject("no such restaurant")}
+                resolve(row[0]);
             })
         })
     };
@@ -20,10 +20,10 @@ export const handler = async (event) => {
     let response
 
     try{
-        const result = await getRestaurant(event.username, event.password)
+        const result = await getRestaurants(event.username)
         response = {
             statusCode: 200,
-            credential: result
+            restaurant: result
         }
     }catch(err){
         response = {

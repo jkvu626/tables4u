@@ -22,6 +22,7 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
+<<<<<<< Updated upstream
 }>) {
   return (
     <html lang="en">
@@ -29,6 +30,18 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+=======
+}) {
+  
+  return (
+    <html lang="en">
+      <body>
+        <Header />
+        <Navbar />
+        <main>
+          {children}
+        </main>
+>>>>>>> Stashed changes
       </body>
     </html>
   );
