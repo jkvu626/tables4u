@@ -10,10 +10,10 @@ export const handler = async (event) => {
     
     let getRestaurant = (username, password) =>{
         return new Promise((resolve, reject) => {
-            pool.query('select * from restaurants where username=?', [username], (error, row) => {
+            pool.query('select name from restaurants where username=?', [username], (error, row) => {
                 if(error){reject(error)}
                 if(row.length == 1 && row[0].password == password){resolve(row[0].name)}
-                resolve("invalid credentials")
+                resolve(false)
             })
         })
     }
@@ -21,10 +21,17 @@ export const handler = async (event) => {
     let response
 
     try{
-        const result = await getRestaurant(event.username, event.password)
-        response = {
-            statusCode: 200,
-            restaurant: result
+        const result = await getRestaurant(event.username)
+        if(result){
+            response = {
+                statusCode: 200,
+                restaurant: result
+            }
+        }else{
+            response = {
+                statusCode: 400,
+                restaurant: "invalid credentials"
+            }
         }
     }catch(err){
         response = {
