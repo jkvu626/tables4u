@@ -1,8 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-/lambda/*/node_modules
-*.zip
-
 # dependencies
 /node_modules
 /.pnp
