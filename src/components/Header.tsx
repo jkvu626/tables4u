@@ -8,7 +8,9 @@ const Header: React.FC = () => (
         Tables<span className="highlight">4U</span>
       </h1>
       <div className="header-buttons">
-        <button className="header-button">Login</button>
+        <Link href="/login" className="header-button">
+          Log In
+        </Link>
         <Link href="/create" className="header-button">
           Create Restaurant
         </Link>

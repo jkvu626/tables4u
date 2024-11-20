@@ -1,6 +1,6 @@
 import mysql from 'mysql'
 
-export const handler = async (event) => {
+export const handler = async () => {
     var pool = mysql.createPool({
         host:'tables4u.cdikygok8rdg.us-east-2.rds.amazonaws.com',
         user: "admin",
@@ -8,11 +8,11 @@ export const handler = async (event) => {
         database: "tables4u"
     })
     
-    let getRestaurant = (username, password) =>{
+    let getRestaurants = (username) =>{
         return new Promise((resolve, reject) => {
-            pool.query('SELECT * FROM restaurants WHERE username=?', [username], (error, row) => {
-                if(error || row.length != 1 || row[0].password != password){reject("invalid credentials")}
-                resolve(row[0].credential)
+            pool.query('SELECT * FROM restaurants', [username], (error, rows) => {
+                if(error){reject("unable to retrieve restaurants")}
+                resolve(rows)
             })
         })
     };
@@ -20,7 +20,7 @@ export const handler = async (event) => {
     let response
 
     try{
-        const result = await getRestaurant(event.username, event.password)
+        const result = await getRestaurants()
         response = {
             statusCode: 200,
             credential: result

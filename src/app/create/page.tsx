@@ -40,8 +40,8 @@ const Create: React.FC = () => {
         <div className='createbox'>
             <h2>Set Credentials</h2>
             <InputField label = 'Username' placeholder=''/>
-            <InputField label = 'Password' placeholder=''/>
-            
+            <InputField label = 'Password' placeholder='' type='password'/>
+            <InputField label = 'Confirm Password' placeholder='' type='password'/>
         </div>
     </div>
   );
