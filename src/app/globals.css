@@ -18,7 +18,7 @@ body {
 .header {
   background-color: white;  
   color: white;
-  padding: 10px;
+  padding: 20px;
 }
 
 .header-content {
@@ -64,7 +64,7 @@ body {
   display: flex;
   justify-content: left;
   background-color: #FFC15E;
-  padding: 10px;
+  padding: 15px;
 }
 
 .nav-link {
@@ -142,4 +142,48 @@ body {
   border: 2px solid black; /* Add a black border with 2px thickness */
   padding: 10px; /* Add padding inside the border */
   border-radius: 8px; /* Optional: Rounded corners */
+}
+
+/* STYLINGS FOR CREATE RESTAURANT */
+.createbox {
+  display: flex; /* Align items horizontally */
+  flex-direction: column;
+  gap: 5px; /* Add space between label-input pairs */
+  width: 50vw;
+  align-items: center; /* Align inputs and labels vertically */ 
+  border: 2px solid black; /* Add a black border with 2px thickness */
+  padding: 20px; /* Add padding inside the border */
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.content-create {
+  margin: 10px;
+  display: flex;
+}
+
+/* STYLINGS FOR AVAILABILITY VIEW */
+/* Add this to your CSS file */
+.time-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.time-table th, .time-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.time-table th {
+  background-color: #f4f4f4;
+}
+
+.time-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.time-table tr:nth-child(odd) {
+  background-color: #fff;
 }

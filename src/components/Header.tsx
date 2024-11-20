@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Header: React.FC = () => (
   <header className="header">
@@ -8,7 +9,9 @@ const Header: React.FC = () => (
       </h1>
       <div className="header-buttons">
         <button className="header-button">Login</button>
-        <button className="header-button">Create A Restaurant</button>
+        <Link href="/create" className="header-button">
+          Create Restaurant
+        </Link>
       </div>
     </div>
   </header>
