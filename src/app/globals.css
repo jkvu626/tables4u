@@ -187,3 +187,15 @@ body {
 .time-table tr:nth-child(odd) {
   background-color: #fff;
 }
+
+/* loading gif */
+#loading{
+  margin-left: 5px;
+  width: 15px;
+  visibility: hidden;
+}
+
+/* login errors */
+.error{
+  color: red;
+}

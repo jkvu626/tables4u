@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import InputField from '@/components/InputField';
@@ -10,20 +10,32 @@ const instance = axios.create({
 
 const Login: React.FC = () => {
   const router = useRouter();
-  const handleLogin = () => {
+  const [load, setLoad] = React.useState({visibility: 'hidden'} as React.CSSProperties)
+  const [err, setErr] = React.useState('');
+
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const username = document.getElementById("username") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
+    setLoad({visibility: 'visible'})
     instance.post('/login', {"username":username.value, "password":password.value}).then(function (response) {
       const status = response.data.statusCode;
       if (status == 200) {
         document.cookie = response.data.credential;
-        router.push('/active');
+        if(username.value == 'admin'){
+          router.push('/admin')
+        }else{
+          router.push('/active');
+        }
+        
       }else{
-        alert(response.data.error);
+        setErr(response.data.error);
+        setLoad({visibility: 'hidden'})
       }
     })
     .catch(function (error: React.SetStateAction<string>) {
-        alert('failed to log in: ' + error);
+        setErr('failed to log in: ' + error);
+        setLoad({visibility: 'hidden'})
     })
   };
 
@@ -31,9 +43,14 @@ const Login: React.FC = () => {
   return(
     <div className='login'>
         <h2>Enter Credentials</h2>
-        <InputField id = 'username' label = 'Username' placeholder=''/>
-        <InputField id = 'password' label = 'Password' placeholder='' type='password'/>
-        <button onClick={handleLogin}>Log In</button>
+        <form onSubmit={handleLogin}>
+          <InputField id = 'username' label = 'Username' placeholder=''/>
+          <InputField id = 'password' label = 'Password' placeholder='' type='password'/>
+          <button type="submit">Log In</button>
+          {/*eslint-disable-next-line @next/next/no-img-element*/}
+          <img src='/loading-7528_128.gif' alt="" id='loading' style={load}/>
+          <label className="error">{err}</label>
+        </form>
     </div>
   );
 }
