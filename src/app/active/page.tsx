@@ -26,6 +26,7 @@ const Active: React.FC = () => {
   const router = useRouter();
   const [credential, setCred] = React.useState('');
   React.useEffect(() => {setCred(document.cookie)}, [])
+
   const handleAvailability = () => {
     router.push('/availability');
   };
