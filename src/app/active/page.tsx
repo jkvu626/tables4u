@@ -24,7 +24,8 @@ const Table: React.FC = () => (
 
 const Active: React.FC = () => {
   const router = useRouter();
-
+  const [credential, setCred] = React.useState('');
+  React.useEffect(() => {setCred(document.cookie)}, [])
   const handleAvailability = () => {
     router.push('/availability');
   };
@@ -32,7 +33,7 @@ const Active: React.FC = () => {
   return (
       <div className='content-create'>
       <div className='createbox'>
-          <h2>{document.cookie}</h2>
+          <h2>{credential}</h2>
           <div className='createbox'>
               <Table/>
               <Table/>
