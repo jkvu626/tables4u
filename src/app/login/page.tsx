@@ -17,7 +17,12 @@ const Login: React.FC = () => {
       const status = response.data.statusCode;
       if (status == 200) {
         document.cookie = response.data.credential;
-        router.push('/active');
+        if(username.value == 'admin'){
+          router.push('/admin')
+        }else{
+          router.push('/active');
+        }
+        
       }else{
         alert(response.data.error);
       }
