@@ -18,6 +18,16 @@ export const handler = async (event) => {
         })
     };
 
+    let getRestaurant = (cred) =>{
+        return new Promise((resolve, reject) => {
+            pool.query('SELECT username FROM restaurants WHERE credential=?', [cred], (error, row) => {
+                if(error){reject("database error")}
+                if(row.length != 1){reject("no such restaurant")}
+                resolve(row[0])
+            })
+        })
+    };
+
     let delRestaurant = (username) =>{
         return new Promise((resolve, reject) => {
             pool.query('DELETE FROM restaurants WHERE username=?', [username], (error, num) => {
@@ -31,8 +41,9 @@ export const handler = async (event) => {
     let response
 
     try{
+        const owner = await getRestaurant(event.credential)
         const admin = await isAdmin(event.credential)
-        if(admin){
+        if(admin || owner.username == event.username){
             const del = await delRestaurant(event.username)
             response = {
                 statusCode: 200,
