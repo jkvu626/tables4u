@@ -7,49 +7,48 @@ export const handler = async (event) => {
         database: "tables4u"
     })
 
-    let isOwner = (cred, username) => {
+    let response = {}
+
+    let isOwner = (username, credential) => {
         return new Promise((resolve, reject) => {
-            pool.query('SELECT credential FROM restaurants WHERE username=? AND credential=?', [cred, username], (error, row) => {
-                if(error){reject("database error")}
-                if(row.length == 1 && row[0].credential == cred){resolve(true)}
-                resolve(false)
+            pool.query('SELECT * FROM restaurants WHERE username=? AND credential=?', [username, credential], (error, rows) => {
+                if (error) { return reject(error) }
+                if ((rows) && (rows.length == 1)) {
+                    return resolve(rows)
+                } else {
+                    return resolve(false)
+                }
             })
         })
-    };
+    }
 
     let activateRestaurant = (username) => {
         return new Promise((resolve, reject) => {
-            pool.query('UPDATE restaurants SET active=b\'1\' WHERE username=?', [true, username], (error, row) => {
-                if(error){reject("failed to activate")}
-                if(num == 0){reject("no such restaurant")}
-                resolve(username)
+            pool.query('UPDATE tables4u.restaurants SET active=b\'1\' WHERE username=?', [username], (error, rows) => {
+                if (error) {return reject(error); }
+                if ((rows) && (rows.length == 1)) {
+                    return resolve(rows);
+                } else {
+                    return resolve(rows);
+                }
             })
         })
     }
 
-    let response
-
-    try{
-        const owner = await isAdmin(event.credential)
-        if(owner){
-            const activate = await activateRestaurant(event.username)
-            response = {
-                statusCode: 200,
-                success: "activated " + del
-            }
-        }else{
-            response = {
-                statusCode: 400,
-                credential: "insufficient permissions"
-            }
+    try {
+        const owner = await isOwner(event.username, event.credential);
+        if (owner) {
+            let result = await activateRestaurant(event.username)
+            response.statusCode = 200
+        } else {
+            response.error = "invalid credentials"
+            response.statusCode = 400
         }
-    }catch(err){
-        response = {
-            statusCode: 400,
-            error: err
-        }
+    } catch (error) {
+        response.statusCode = 400
+        response.error = error
     }
 
     pool.end()
-    return response
+    return response;
 }
