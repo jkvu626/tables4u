@@ -23,7 +23,7 @@ export const handler = async () => {
         const result = await getRestaurants()
         response = {
             statusCode: 200,
-            credential: result
+            restaurants: result
         }
     }catch(err){
         response = {
