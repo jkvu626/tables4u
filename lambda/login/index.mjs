@@ -11,8 +11,9 @@ export const handler = async (event) => {
     let getRestaurant = (username, password) =>{
         return new Promise((resolve, reject) => {
             pool.query('SELECT * FROM restaurants WHERE username=?', [username], (error, row) => {
-                if(error || row.length != 1 || row[0].password != password){reject("invalid credentials")}
-                resolve(row[0].credential)
+                if(error){reject("invalid credentials")}
+                if(row.length == 1 && row[0].password == password){resolve(row[0].credential)}
+                reject("invalid credentials")
             })
         })
     };
