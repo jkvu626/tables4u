@@ -5,7 +5,7 @@
     - Delete Restaurant
 - AuthenticationChecker component - Lev
     - Check for authentication, redirect to login if not correct
-<span style="color: green;"
+<span style="color: green;">
 - Admin page - Dan
     - List Restaurants
     - Delete Restaurant button
