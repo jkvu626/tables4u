@@ -9,7 +9,7 @@
 - Admin page - Dan
     - List Restaurants
     - Delete Restaurant button
-/span>
+</span>
 - Edit functionality - JVu
     - delete table backend
     - add/delete table frontend (working list of tables)
