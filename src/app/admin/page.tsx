@@ -23,11 +23,11 @@ const Admin: React.FC = () => {
         }
       }
       else {
-        setRestaurants([])
+        router.push('/login')
       }
     })
-  
-  })
+
+  }, [router])
   return(
   <div className='content'>
     <div className="filter">
