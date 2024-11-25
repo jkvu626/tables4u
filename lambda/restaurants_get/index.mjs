@@ -10,8 +10,7 @@ export const handler = async () => {
     
     let getRestaurants = () =>{
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM restaurants WHERE active=1'
-            pool.query(query, (error, rows) => {
+            pool.query('SELECT * FROM restaurants WHERE active=1', (error, rows) => {
                 if(error){reject("unable to retrieve restaurants")}
                 resolve(rows)
             })
