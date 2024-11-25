@@ -8,3 +8,4 @@
 - Admin page - Dan
     - List Restaurants
     - Delete Restaurant button
+- Add/Delete table backend - JVu
