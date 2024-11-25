@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
+import './components.css'
 
 const Restaurant: React.FC<{name: string; date: string; address: string}> = ({
   name, 
@@ -14,7 +15,7 @@ const Restaurant: React.FC<{name: string; date: string; address: string}> = ({
   };
 
   return (
-    <div className="Restaurant">
+    <div className="restaurant">
       <label>{name}</label>
       <label>{date}</label>
       <label>{address}</label>
