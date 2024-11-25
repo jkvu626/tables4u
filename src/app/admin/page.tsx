@@ -8,24 +8,26 @@ const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
 })
 
-const Search: React.FC = () => {
+const Admin: React.FC = () => {
   const [restaurants, setRestaurants] = React.useState([]);
-
+  const router = useRouter()
 
   React.useEffect(() => {
     instance.post("/restaurants", {"credential": document.cookie}).then(function (response){
       const status = response.data.statusCode;
       if (status == 200) {
-        setRestaurants(Object.values(response.data.restaurants))
+        if(!response.data.restaurants){
+          router.push('/login')
+        }else{
+          setRestaurants(Object.values(response.data.restaurants))
+        }
       }
       else {
         setRestaurants([])
       }
     })
   
-  }, [])
-
-
+  })
   return(
   <div className='content'>
     <div className="filter">
@@ -54,4 +56,4 @@ const Search: React.FC = () => {
   </div>
 );}
 
-export default Search
+export default Admin
