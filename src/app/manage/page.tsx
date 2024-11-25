@@ -87,7 +87,7 @@ const Edit: React.FC = () => {
     return (
         <div className='content-create'>
         <div className='createbox'>
-            <h2>{restaurant? restaurant['name'] : "no data"}</h2>
+            <h2>{restaurant? restaurant['name'] : "Loading..."}</h2>
             {!isActive && <button onClick={handleActivate}>Activate</button>}
             {!isActive && <div className='createbox'>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
