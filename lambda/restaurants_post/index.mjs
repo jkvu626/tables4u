@@ -17,10 +17,21 @@ export const handler = async (event) => {
         })
     };
 
+    let getByCred = (cred) =>{
+        return new Promise((resolve, reject) => {
+            pool.query('SELECT * FROM restaurants WHERE credential=?', [cred], (error, row) => {
+                if(error || row.length != 1){reject("no such restaurant")}
+                resolve(row[0]);
+            })
+        })
+    };
+
     let response
 
     try{
-        const result = await getRestaurants(event.username)
+        const result = event.username ? 
+            await getRestaurants(event.username) :
+            await getByCred(event.credential)
         response = {
             statusCode: 200,
             restaurant: result
