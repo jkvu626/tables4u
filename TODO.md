@@ -3,7 +3,7 @@
     - Manage page that checks for activation (labels if active, input fields populated with values otherwise)
     - Activate Restaurant button
     - Delete Restaurant
-- AuthenticationChecker component - Lev
+- Authentication Check for user - Lev
     - Check for authentication, redirect to login if not correct
 - Edit functionality - JVu
     - delete table backend
@@ -15,4 +15,6 @@ COMPLETED TASKS
 - Admin page - Dan
     - List Restaurants
     - Delete Restaurant button
+- Authentication Check for admin - Lev
+    - Check for authentication, redirect to login if not correct
     
