@@ -2,7 +2,11 @@
 import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
 
-const Restaurant: React.FC = () => {
+const Restaurant: React.FC<{name: string; date: string; address: string}> = ({
+  name, 
+  date,
+  address
+ }) => {
   const router = useRouter(); // Use useRouter from next/navigation
 
   const makeReservation = () => {
@@ -10,9 +14,10 @@ const Restaurant: React.FC = () => {
   };
 
   return (
-    <div className="searchrest">
-      <label>RESTAURANT NAME</label>
-      <label>OPEN RESERVATIONS: X/X</label>
+    <div className="Restaurant">
+      <label>{name}</label>
+      <label>{date}</label>
+      <label>{address}</label>
       <button onClick={makeReservation}>MAKE RESERVATION</button>
     </div>
   );
