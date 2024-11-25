@@ -8,9 +8,10 @@ export const handler = async () => {
         database: "tables4u"
     })
     
-    let getRestaurants = (username) =>{
+    let getRestaurants = () =>{
         return new Promise((resolve, reject) => {
-            pool.query('SELECT * FROM restaurants', [username], (error, rows) => {
+            let query = 'SELECT * FROM restaurants WHERE active=1'
+            pool.query(query, (error, rows) => {
                 if(error){reject("unable to retrieve restaurants")}
                 resolve(rows)
             })
