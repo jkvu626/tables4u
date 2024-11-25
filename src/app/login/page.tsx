@@ -41,7 +41,7 @@ const Login: React.FC = () => {
 
   
   return(
-    <div className='login'>
+    <div className='content'>
         <h2>Enter Credentials</h2>
         <form onSubmit={handleLogin}>
           <InputField id = 'username' label = 'Username' placeholder=''/>
