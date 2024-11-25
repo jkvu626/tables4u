@@ -42,12 +42,14 @@ const Search: React.FC = () => {
       </label>
     </div>
     <div className="searchbox">
-      {restaurants?.map(({name, date, address}) => (
+      {restaurants?.map(({name, open, close, address}) => (
         <Restaurant 
         key={name}
         name={name} 
-        date={date}
-        address={address}/>
+        open={open}
+        close={close}
+        address={address}
+        />
       ))}
     </div>
   </div>
