@@ -10,7 +10,7 @@
     - add/delete table frontend (working list of tables)
     - add edit time functionality
  
-COMPLETED TASKS
+# COMPLETED TASKS
 
 - Admin page - Dan
     - List Restaurants
