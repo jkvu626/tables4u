@@ -13,7 +13,7 @@ const Edit: React.FC = () => {
     const router = useRouter();
     const [err, setErr] = React.useState('');
 
-    const [isActive, setIsActive] = React.useState(false)
+    const [isActive, setIsActive] = React.useState(true)
     const [restaurant, setRestaurant] = React.useState(null);
 
     const getActive = () => {
