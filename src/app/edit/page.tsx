@@ -25,6 +25,30 @@ const Edit: React.FC = () => {
         router.push('/availability');
     };
 
+    const handleAddTable = () => {
+        const user = document.getElementById('user') as HTMLInputElement
+        const seats = document.getElementById('seats') as HTMLInputElement
+        const tid = document.getElementById('tid') as HTMLInputElement
+
+        if (user.value != '' && seats.value != '' && tid.value != '') {
+            instance.post('/addtable'   , {
+                username: user.value,
+                tid: tid.value,
+                seats: seats.value
+            }).then(function (response) {
+                const status =  response.data.statusCode;
+                if (status == 200) {
+                    setErr('')
+                    console.log("TABLE ADDED")
+                } else {
+                    setErr(response.data.error)
+                }
+            })
+        } else {
+            setErr("Fields not filled out")
+        }
+    }
+
     const handleActivate = () => {
         const rename = document.getElementById('name') as HTMLInputElement
         const user = document.getElementById('user') as HTMLInputElement
@@ -82,8 +106,9 @@ const Edit: React.FC = () => {
             <InputField label ='User:' placeholder='' id  ='user'/>
             <button onClick={handleActivate}>Activate</button>
             <div className='createbox'>
+            <InputField label = 'Table ID:' placeholder='' id  = 'tid'/>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
-                <button>Add Table</button>
+                <button onClick={handleAddTable}>Add Table</button>
                 <label className="error">{err}</label>
             </div>
             <div className='createbox'>

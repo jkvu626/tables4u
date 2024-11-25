@@ -37,7 +37,7 @@ export const handler = async (event) => {
         })
     }   
 
-
+    
 
     try {
         // console.log(document.cookie)
