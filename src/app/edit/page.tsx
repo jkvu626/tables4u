@@ -32,6 +32,32 @@ const Edit: React.FC = () => {
         console.log(rename.value)
         console.log(user.value)
 
+        if (user && document.cookie) {
+            instance.post('/activate', {"username":user.value, "credential":document.cookie})
+                .then(function (response) {
+                    let status = response.data.statusCode
+                    let restaurant = response.data.body
+
+                    console.log(restaurant)
+
+                    if (status == 200) {
+                        router.push('/active')
+                    } else {
+                        setErr(response.data.error)
+                    }
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        // The request was made, and the server responded with a status code outside the 2xx range
+                        console.error("API responded with an error:");
+                        console.error("Status code:", error.response.status);
+                        console.error("Response data:", error.response.data);
+                        console.error("Headers:", error.response.headers);
+                    
+                        setErr(`API error (${error.response.status}): ${error.response.data.message || 'Unknown error'}`);
+                }})
+        }
+
         if (rename.value != '' && user.value != '') {
             instance.post('/edit', {
                 name: rename.value,
