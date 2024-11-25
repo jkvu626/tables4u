@@ -15,6 +15,7 @@ const Edit: React.FC = () => {
 
     const [redraw, forceRedraw] = React.useState(0)
     const [isActive, setIsActive] = React.useState(false)
+    const [restName, setRestName] = React.useState('')
 
     function andRefreshDisplay() {
         forceRedraw(redraw + 1)
@@ -26,8 +27,10 @@ const Edit: React.FC = () => {
                 .then(function (response) {
                     let status = response.data.statusCode
                     let active = response.data.restaurant.active
+                    let name = response.data.restaurant.name
                     if (status == 200) {
                         if (active) {setIsActive(true)}
+                        setRestName(name)
                     } else {
                         setErr(response.data.error)
                     }
@@ -97,7 +100,7 @@ const Edit: React.FC = () => {
     return (
         <div className='content-create'>
         <div className='createbox'>
-            <h2>Restaurant Name</h2>
+            <h2>{restName}</h2>
             {!isActive && <InputField label ='Name:' placeholder='' id  ='name'/>}
             {!isActive && <InputField label ='User:' placeholder='' id  ='user'/>}
             {!isActive && <button onClick={handleActivate}>Activate</button>}
