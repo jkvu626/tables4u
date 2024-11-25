@@ -5,9 +5,11 @@
     - Delete Restaurant
 - AuthenticationChecker component - Lev
     - Check for authentication, redirect to login if not correct
+<span style="color: red;">
 - Admin page - Dan
     - List Restaurants
     - Delete Restaurant button
+</span>
 - Edit functionality - JVu
     - delete table backend
     - add/delete table frontend (working list of tables)
