@@ -1,27 +1,32 @@
 'use client'
 import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
+import axios from 'axios';
+import AdminRestaurants from '../../components/Admin';
 
-const Restaurant: React.FC = () => {
-    const router = useRouter(); // Use useRouter from next/navigation
-  
-    const cancelReservation = () => {
-      router.push('/cancel'); // Perform navigation to /make
-    };
-  
-    return (
-      <div className="searchrest">
-        <label>RESTAURANT NAME</label>
-        <label>ACTIVE</label>
-        <label>AVAILABLE TABLES: X/X</label>
-        <label>PERCENT UTILIZATION: XX%</label>
-        <button onClick={cancelReservation}>CANCEL RESERVATION</button>
-        <button>DELETE RESTAURANT</button>
-      </div>
-    );
-  };
+const instance = axios.create({
+  baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
+})
 
-const Search: React.FC = () => (
+const Search: React.FC = () => {
+  const [restaurants, setRestaurants] = React.useState([]);
+
+
+  React.useEffect(() => {
+    instance.post("/restaurants", {"credential": document.cookie}).then(function (response){
+      const status = response.data.statusCode;
+      if (status == 200) {
+        setRestaurants(Object.values(response.data.restaurants))
+      }
+      else {
+        setRestaurants([])
+      }
+    })
+  
+  }, [])
+
+
+  return(
   <div className='content'>
     <div className="filter">
       <label>Filter</label>
@@ -36,11 +41,17 @@ const Search: React.FC = () => (
       </label>
     </div>
     <div className="searchbox">
-      <Restaurant />
-      <Restaurant />
-      <Restaurant />
+      {restaurants?.map(({name, open, close, address}) => (
+        <AdminRestaurants 
+        key={name}
+        name={name} 
+        open={open}
+        close={close}
+        address={address}
+        />
+      ))}
     </div>
   </div>
-);
+);}
 
-export default Search;
+export default Search
