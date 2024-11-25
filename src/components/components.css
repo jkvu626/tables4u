@@ -1,0 +1,10 @@
+/* RESTAURANT COMPONENT */
+.restaurant {
+    display: flex; /* Align items horizontally */
+    justify-content: space-between; /* Evenly space out items */
+    align-items: center; /* Align inputs and labels vertically */
+    gap: 20px; /* Maintain space between items if needed */
+    border: 2px solid black; /* Add a black border with 2px thickness */
+    padding: 10px; /* Add padding inside the border */
+    border-radius: 8px; /* Optional: Rounded corners */
+}

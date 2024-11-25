@@ -8,4 +8,8 @@
 - Admin page - Dan
     - List Restaurants
     - Delete Restaurant button
-- Add/Delete table backend - JVu
+- Edit functionality - JVu
+    - delete table backend
+    - add/delete table frontend (working list of tables)
+    - add edit time functionality
+    
