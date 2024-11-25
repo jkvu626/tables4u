@@ -28,7 +28,7 @@ export const handler = async (event) => {
 
     let getAdmin = () =>{
         return new Promise((resolve, reject) => {
-            pool.query('SELECT * FROM restaurants', (error, rows) => {
+            pool.query('SELECT * FROM restaurants WHERE NOT username=\'admin\'', (error, rows) => {
                 if(error){reject("database error")}
                 resolve(rows);
             })
@@ -57,7 +57,12 @@ export const handler = async (event) => {
         }else{
             result = await getByCred(event.credential)
         }
-        response = {
+        response = admin ? 
+        {
+            statusCode: 200,
+            restaurants: result
+        } : 
+        {
             statusCode: 200,
             restaurant: result
         }
