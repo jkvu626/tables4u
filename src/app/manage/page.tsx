@@ -13,13 +13,8 @@ const Edit: React.FC = () => {
     const router = useRouter();
     const [err, setErr] = React.useState('');
 
-    const [redraw, forceRedraw] = React.useState(0)
     const [isActive, setIsActive] = React.useState(false)
-    const [restName, setRestName] = React.useState('')
-
-    function andRefreshDisplay() {
-        forceRedraw(redraw + 1)
-    }
+    const [restaurant, setRestaurant] = React.useState(null);
 
     const getActive = () => {
         if (document.cookie) {
@@ -27,10 +22,9 @@ const Edit: React.FC = () => {
                 .then(function (response) {
                     let status = response.data.statusCode
                     let active = response.data.restaurant.active
-                    let name = response.data.restaurant.name
                     if (status == 200) {
                         if (active) {setIsActive(true)}
-                        setRestName(name)
+                        setRestaurant(response.data.restaurant)
                     } else {
                         setErr(response.data.error)
                     }
@@ -53,20 +47,13 @@ const Edit: React.FC = () => {
     };
 
     const handleActivate = () => {
-        const rename = document.getElementById('name') as HTMLInputElement
-        const user = document.getElementById('user') as HTMLInputElement
-
-        console.log(rename.value)
-        console.log(user.value)
-
-        if (user && document.cookie) {
-            instance.post('/activate', {"username":user.value, "credential":document.cookie})
+        if (document.cookie && restaurant) {
+            instance.post('/activate', {"username":restaurant['name'], "credential":document.cookie})
                 .then(function (response) {
                     let status = response.data.statusCode
-                    let restaurant = response.data.body
 
                     if (status == 200) {
-                        andRefreshDisplay()
+                        setRestaurant(response.data.restaurant)
                     } else {
                         setErr(response.data.error)
                     }
@@ -95,14 +82,12 @@ const Edit: React.FC = () => {
 
     useEffect(() => {
         getActive();
-    }, []);
+    });
 
     return (
         <div className='content-create'>
         <div className='createbox'>
-            <h2>{restName}</h2>
-            {!isActive && <InputField label ='Name:' placeholder='' id  ='name'/>}
-            {!isActive && <InputField label ='User:' placeholder='' id  ='user'/>}
+            <h2>{restaurant? restaurant['name'] : "no data"}</h2>
             {!isActive && <button onClick={handleActivate}>Activate</button>}
             {!isActive && <div className='createbox'>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
