@@ -25,7 +25,7 @@ const Login: React.FC = () => {
         if(username.value == 'admin'){
           router.push('/admin')
         }else{
-          router.push('/active');
+          router.push('/manage');
         }
         
       }else{
