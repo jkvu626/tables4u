@@ -8,12 +8,13 @@ const instance = axios.create({
   baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
 });
 
-const AdminRestaurant: React.FC<{name: string; open: number; close: number; address: string; username: string; refresh: () => void}> = ({
+const AdminRestaurant: React.FC<{name: string; open: number; close: number; address: string; username: string; active: boolean; refresh: () => void}> = ({
   name, 
   address,
   open,
   close,
   username,
+  active,
   refresh
  }) => {
   const [err, setErr] = React.useState('')
@@ -44,6 +45,7 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
     <div className="adminrestaurant">
       <div className="info">
         <label style={{ fontWeight: 'bold' }}>{name}</label>
+        <label style={active ? {color: 'green'} : {color: 'red'}}>{active ? 'Active' : 'Inactive'}</label>
         <label>{address}</label>
       </div>
       <div className="spacer"></div>
@@ -57,6 +59,7 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
         <button onClick={makeReservation}>MAKE RESERVATION</button>
         <button>DELETE RESERVATION</button>
         <button onClick={deleteRestaurant}>DELETE RESTAURANT</button>
+        <label className='error'>{err}</label>
       </div>
     </div>
   );  

@@ -82,7 +82,7 @@ button:hover {
     flex: 1; /* Allow these sections to take up available space */
     display: flex;
     flex-direction: column; /* Stack elements vertically within each group */
-    gap: 15px; /* Add gap between elements within the stack */
+    gap: 2px; /* Add gap between elements within the stack */
   } 
   .adminrestaurant .timing {
     flex: 1; /* Allow these sections to take up available space */
