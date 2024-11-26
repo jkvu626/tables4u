@@ -23,7 +23,7 @@ export const handler = async (event) => {
     }
     
     let selectTables = (username) => {
-        const selectNewTable = `SELECT * FROM tables4u.tables WHERE username = ?`;
+        const selectNewTable = 'SELECT * FROM tables4u.tables WHERE username = ?';
 
         return new Promise((resolve, reject) => {
             pool.query(selectNewTable, [username], (selectError, rows) => {
@@ -37,15 +37,47 @@ export const handler = async (event) => {
         });
     };
 
+    let getFix = (username, tid) => {
+
+        return new Promise((resolve, reject) => {
+            pool.query('SELECT * FROM tables WHERE username=? AND tableid>?', [username, tid], (deleteTableError, rows) => {
+                if (deleteTableError) {
+                    console.error("Database error during insertion:", deleteTableError); 
+                    return reject("Database error during insertion");
+                } else {
+                    return resolve(rows)
+                }
+            })
+        })
+    }
+
+    let insertRow = (username, tid) => {
+
+        return new Promise((resolve, reject) => {
+            pool.query('UPDATE tables SET tableid=? WHERE username=? AND tableid=?', [tid-1, username, tid], (deleteTableError, rows) => {
+                if (deleteTableError) {
+                    console.error("Database error during insertion:", deleteTableError); 
+                    return reject("Database error during insertion");
+                } else {
+                    return resolve(rows)
+                }
+            })
+        })
+    }
+
     let response;
 
     try {
         await removeTable(event.username, event.tableid)
-            let select = await selectTables(event.username)
-            response = {
-                statusCode: 200,
-                tables: select
-            }
+        let fix = await getFix(event.username, event.tableid)
+        for(let row of fix){
+            await insertRow(row.username, row.tableid)
+        }
+        let select = await selectTables(event.username)
+        response = {
+            statusCode: 200,
+            tables: select
+        }
 
     } catch (err) {
         console.error("Error occurred:", err); // Debug: Log error
