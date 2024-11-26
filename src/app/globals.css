@@ -200,4 +200,18 @@ body {
   color: red;
 }
 
+/* edit form */
+
+.editform {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Adds space between form elements */
+  width: 100%;
+  max-width: 400px; /* Optional: Limit form width */
+  margin: 0 auto; /* Center the form horizontally */
+  padding: 20px; /* Optional: Add some padding inside the form */
+  background-color: #f9f9f9; /* Optional: Form background color */
+  border-radius: 8px; /* Optional: Rounded corners for the form */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow */
+}
 
