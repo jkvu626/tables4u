@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
+import './components.css'
 import axios from 'axios';
 
 const instance = axios.create({
@@ -40,17 +41,25 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
   // }
 
   return (
-    <div className="adminRestaurants">
-      <label>{name}</label>
-      <label>{address}</label>
-      <label>{open}</label>
-      <label>{close}</label>
-      <button onClick={makeReservation}>MAKE RESERVATION</button>
-      <button> DELETE RESERVATION </button>
-      <button onClick={deleteRestaurant}>DELETE RESTAURANT</button>
-      <label className='error'>{err}</label>
+    <div className="adminrestaurant">
+      <div className="info">
+        <label style={{ fontWeight: 'bold' }}>{name}</label>
+        <label>{address}</label>
+      </div>
+      <div className="spacer"></div>
+      <div className="timing">
+        <label>Open: {open}:00</label>
+        <label>Close: {close}:00</label>
+      </div>
+      <div className="spacer"></div>
+  
+      <div className="actions">
+        <button onClick={makeReservation}>MAKE RESERVATION</button>
+        <button>DELETE RESERVATION</button>
+        <button onClick={deleteRestaurant}>DELETE RESTAURANT</button>
+      </div>
     </div>
-  );
+  );  
 };
 
 export default AdminRestaurant;

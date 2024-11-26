@@ -63,3 +63,80 @@ button:hover {
     padding: 10px; /* Add padding inside the border */
     border-radius: 8px; /* Optional: Rounded corners */
 }
+
+.adminrestaurant {
+    display: flex;
+    flex-direction: row; /* Arrange stacks horizontally */
+    justify-content: space-between; /* Even spacing between stacks */
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    padding: 30px; /* Increase padding for more space around the content */
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-width: 1000px; /* Increase max width for more room */
+    width: 100%; /* Ensure it takes full width of the parent */
+    box-sizing: border-box; /* Include padding in the element's total width */
+  }
+  
+  .adminrestaurant .info {
+    flex: 1; /* Allow these sections to take up available space */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically within each group */
+    gap: 15px; /* Add gap between elements within the stack */
+  } 
+  .adminrestaurant .timing {
+    flex: 1; /* Allow these sections to take up available space */
+    display: flex;
+    flex-direction: row; /* Stack elements vertically within each group */
+    gap: 15px; /* Add gap between elements within the stack */
+  }
+  
+  .adminrestaurant .info label, 
+  .adminrestaurant .timing label {
+    font-size: 18px; /* Increase font size for better readability */
+    margin-bottom: 8px; /* Increase space between labels */
+    word-wrap: break-word; /* Allow long text to break onto the next line */
+    word-break: break-word; /* Ensure long words break if necessary */
+    max-width: 100%; /* Make sure the labels don't overflow */
+  }
+  
+  .adminrestaurant .actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the far right */
+    align-items: center;
+    gap: 15px; /* Increase space between buttons */
+    width: auto; /* Allow buttons to adjust based on content */
+  }
+  
+  .adminrestaurant .button-container {
+    display: flex;
+    gap: 15px; /* Space between buttons */
+  }
+  
+  .adminrestaurant .button-container button {
+    padding: 12px 18px; /* Increase padding for larger buttons */
+    font-size: 16px; /* Increase font size */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    width: auto; /* Allow buttons to fit their content */
+    text-align: center;
+  }
+  
+  .adminrestaurant .button-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .adminrestaurant .button-container button:last-child {
+    margin-right: 0; /* Ensure no extra space after the last button */
+  }
+  
+  .adminrestaurant .spacer {
+    width: 20px; /* Adjust the value as needed */
+  }
+  
+  
+  
+  

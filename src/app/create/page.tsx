@@ -98,8 +98,8 @@ const Create: React.FC = () => {
         <InputField id="name" label="Name " placeholder="" />
         <InputField id="address" label="Address " placeholder="" />
         <div className="createbox">
-          <InputField id="open" label="Open Time " placeholder="00:00 - 23:00" />
-          <InputField id="close" label="Close Time " placeholder="00:00 - 23:00" />
+          <InputField id="open" label="Open Time " placeholder="0 - 23" />
+          <InputField id="close" label="Close Time " placeholder="0 - 23" />
           <button onClick={handleCreate}>Create Restaurant</button>
           <label className="error">{err}</label>
         </div>
