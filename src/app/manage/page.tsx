@@ -212,6 +212,9 @@ const Edit: React.FC = () => {
             </div>
             );
 
+    const deleteTable = () => {
+        router.push('/RemoveTable');
+    }
     return (
         <div className='content-create'>
         <div className='createbox'>
@@ -246,6 +249,7 @@ const Edit: React.FC = () => {
                 <label className="error">{err}</label>
             </form>}
             <button onClick={deleteRestaurant}>Delete Restaurant</button>
+            <button onClick={deleteTable}>Delete Tables</button>
         </div>
     </div>
     );
