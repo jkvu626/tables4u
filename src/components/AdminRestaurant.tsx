@@ -2,7 +2,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
 
-const AdminRestaurants: React.FC<{name: string; open: number; close: number; address: string}> = ({
+const AdminRestaurant: React.FC<{name: string; open: number; close: number; address: string}> = ({
   name, 
   address,
   open,
@@ -18,9 +18,9 @@ const AdminRestaurants: React.FC<{name: string; open: number; close: number; add
     router.push('/delete');
   }
 
-  const deleteReservation = () => {
-    router.push('/delete');
-  }
+  // const deleteReservation = () => {
+  //   router.push('/delete');
+  // }
 
   return (
     <div className="adminRestaurants">
@@ -35,4 +35,4 @@ const AdminRestaurants: React.FC<{name: string; open: number; close: number; add
   );
 };
 
-export default AdminRestaurants;
+export default AdminRestaurant;

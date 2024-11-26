@@ -26,7 +26,7 @@ const Edit: React.FC = () => {
             const status = response.data.statusCode;
             if (status == 200) {
                 const restaurant = response.data.restaurant;
-                let active = response.data.restaurant.active
+                const active = response.data.restaurant.active
                 if (restaurant && restaurant.name) {
                     setRestName(restaurant.name);
                     setUsername(restaurant.username);
@@ -48,7 +48,7 @@ const Edit: React.FC = () => {
         .catch((err) => {
             setErr("Error: " + err.message);
         })
-    }, [username]);
+    }, []);
 
     React.useEffect(() => {
         instance.post("/tables_get", {username: username})
@@ -70,10 +70,6 @@ const Edit: React.FC = () => {
             console.log("USERNAME SET TO: " + username);
         }
     }, [username]);  // This runs whenever `username` changes
-
-    const handleAvailability = () => {
-        router.push('/availability');
-    };
 
     const handleAddTable = () => {
         const seats = document.getElementById('seats') as HTMLInputElement
@@ -161,7 +157,7 @@ const Edit: React.FC = () => {
         if (document.cookie && username) {
             instance.post('/delete', {"username":username, "credential":document.cookie})
                 .then(function(response) {
-                    let status = response.data.statusCode
+                    const status = response.data.statusCode
                     if (status == 200) {
                         router.push('/')
                     } else {
@@ -184,7 +180,7 @@ const Edit: React.FC = () => {
         if (document.cookie && username) {
             instance.post('/activate', {"username":username, "credential":document.cookie})
                 .then(function (response) {
-                    let status = response.data.statusCode
+                    const status = response.data.statusCode
 
                     if (status == 200) {
                         setIsActive(true)

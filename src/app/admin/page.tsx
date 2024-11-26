@@ -2,7 +2,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
 import axios from 'axios';
-import AdminRestaurants from '../../components/Admin';
+import AdminRestaurant from '@/components/AdminRestaurant';
 
 const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
@@ -44,7 +44,7 @@ const Admin: React.FC = () => {
     </div>
     <div className="searchbox">
       {restaurants?.map(({name, open, close, address}) => (
-        <AdminRestaurants 
+        <AdminRestaurant 
         key={name}
         name={name} 
         open={open}
