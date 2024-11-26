@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { FormEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
@@ -15,6 +15,8 @@ const Edit: React.FC = () => {
     const [restname, setRestName] = React.useState('');
     const [username, setUsername] = React.useState('');
     const [address, setAddress] = React.useState('');
+    const [opentime, setOpen] = React.useState(0);
+    const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
 
     React.useEffect(() => {
@@ -27,6 +29,8 @@ const Edit: React.FC = () => {
                     setRestName(restaurant.name);
                     setUsername(restaurant.username);
                     setAddress(restaurant.address);
+                    setOpen(restaurant.open);
+                    setClose(restaurant.close);
                 } else {
                     setErr("Restaurant not found")
                 }
@@ -88,17 +92,30 @@ const Edit: React.FC = () => {
         }
     }
 
-    const handleEdit = () => {
+    const handleEdit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const rename = document.getElementById('name') as HTMLInputElement
+        const newaddress = document.getElementById('address') as HTMLInputElement
+        const newopen = document.getElementById('open') as HTMLInputElement
+        const newclose = document.getElementById('close') as HTMLInputElement
 
-        if (rename.value != '' && username != '') {
+        const openVal = parseInt(newopen.value, 10)
+        const closeVal = parseInt(newclose.value, 10)
+
+        if (rename.value != '' && newaddress.value != '' && newopen.value != null && newclose.value != null && username != '') {
             instance.post('/edit', {
                 name: rename.value,
+                address: newaddress.value,
+                open: newopen.value,
+                close: newclose.value,  
                 username: username
             }).then(function (response) {
                 const status = response.data.statusCode;
                 if (status == 200) {
                     setRestName(rename.value)
+                    setAddress(newaddress.value)
+                    setOpen(openVal)
+                    setClose(closeVal)
                 } else {
                     setErr(response.data.error)
                 }
@@ -166,12 +183,13 @@ const Edit: React.FC = () => {
         <div className='createbox'>
             <h2>{restname}</h2>
             <label>{address}</label>
+            <label>Open Time: {opentime}:00</label>
+            <label>Close Time: {closetime}:00</label>
             <button onClick={handleActivate}>Activate</button>
             <div className='createbox'>
             <InputField label = 'Table ID:' placeholder='' id  = 'tid'/>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
                 <button onClick={handleAddTable}>Add Table</button>
-                <label className="error">{err}</label>
             </div>
             <div className='createbox'>
                 {tables?.map(({tableid, seats}) => (
@@ -185,11 +203,15 @@ const Edit: React.FC = () => {
         </div>
         <div className='createbox'>
             <h2>Edit Restaurant Details</h2>
-            <InputField label = 'Name ' placeholder='' id='name'/>
-            <InputField label = 'Address ' placeholder=''/>
-            <InputField label = 'Open ' placeholder=''/>
-            <InputField label = 'Close ' placeholder=''/>
-            <button onClick={handleEdit}>Make Changes</button>
+            <form className='editform' onSubmit={handleEdit}>
+                <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
+                <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
+                <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
+                <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
+                <button type='submit'>Make Changes</button>
+                <label className="error">{err}</label>
+            </form>
+
         </div>
     </div>
     );
