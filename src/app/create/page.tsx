@@ -56,7 +56,7 @@ const Create: React.FC = () => {
           if (status === 200) {
             console.log("Restaurant created successfully. Redirecting to /edit."); // Debug: Log successful creation
             document.cookie = response.data.credential;
-            router.push('/edit');
+            router.push('/manage');
           } else {
             console.warn("Error from API:", response.data.error); // Debug: Log API error
             setErr(response.data.error);

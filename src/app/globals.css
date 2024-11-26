@@ -215,3 +215,28 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow */
 }
 
+/* edit table */
+
+.table {
+  display: flex; /* Align items horizontally */
+  gap: 20px; /* Add space between label-input pairs */
+  align-items: center; /* Align inputs and labels vertically */ 
+  border: 2px solid black; /* Add a black border with 2px thickness */
+  padding: 10px; /* Add padding inside the border */
+  border-radius: 8px; /* Optional: Rounded corners */
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #FF9F1C;
+  color: black;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #bd7615; /* Darker blue on hover */
+}
