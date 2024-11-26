@@ -46,7 +46,7 @@ const Admin: React.FC = () => {
       </label>
     </div>
     <div className="searchbox">
-      {restaurants?.map(({name, open, close, address, username}) => (
+      {restaurants?.map(({name, open, close, address, username, active}) => (
         <AdminRestaurant 
         key={name}
         name={name} 
@@ -54,6 +54,7 @@ const Admin: React.FC = () => {
         close={close}
         address={address}
         username={username}
+        active={active}
         refresh={refreshTrigger}
         />
       ))}
