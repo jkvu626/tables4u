@@ -47,12 +47,17 @@
         let response;
 
         try {
-            await addTable(event.username, event.tid, event.seats)
-            const select = await selectTables(event.username)
+            const initialTables = await selectTables(event.username);
+            let tableid = initialTables.length + 1;
+            
+            await addTable(event.username, tableid, event.seats);
+
+            const updatedTables = await selectTables(event.username);
+
             response = {
                 statusCode: 200,
-                tables: select
-            }
+                tables: updatedTables // Use updated tables here
+            };
         } catch (err) {
             console.error("Error occurred:", err); // Debug: Log error
             response = {

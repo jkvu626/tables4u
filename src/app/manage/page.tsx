@@ -72,6 +72,28 @@ const Edit: React.FC = () => {
     }, [username]);  // This runs whenever `username` changes
 
 
+    const handleAddTable = () => {
+        const seats = document.getElementById('seats') as HTMLInputElement
+
+        if (seats.value != '') {
+            instance.post('/addtable'   , {
+                username: username,
+                seats: seats.value
+            }).then(function (response) {
+                const status =  response.data.statusCode;
+                if (status == 200) {
+                    setErr('')
+                    setTables(Object.values(response.data.tables))
+                    console.log("TABLE ADDED")
+                } else {
+                    setErr(JSON.stringify(response.data.error))
+                }
+            })
+        } else {
+            setErr("Fields not filled out")
+        }
+    }
+
     const handleEdit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const rename = document.getElementById('name') as HTMLInputElement
@@ -244,7 +266,6 @@ const Edit: React.FC = () => {
             <label>Close Time: {closetime}:00</label>
             {!isActive && <button onClick={handleActivate}>Activate</button>}
             {!isActive && <div className='createbox'>
-            <InputField label = 'Table ID:' placeholder='' id  = 'tid'/>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
                 <button onClick={handleAddTable}>Add Table</button>
             </div>}
