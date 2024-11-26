@@ -1,10 +1,14 @@
 import React from 'react';
+import './components.css'
 
-const Table: React.FC = () => (
-  <div className="makeres">
-    <label>Table X</label>
-    <label>Seats: X</label>
-    <button>RESERVE</button>
+const Table: React.FC<{tableid: number; seats: number;}> = ({
+  tableid,
+  seats
+}) => (
+  <div className="table">
+    <label>Table {tableid}</label>
+    <label>Seats: {seats}</label>
+    <button>REMOVE</button>
   </div>
 );
 

@@ -17,10 +17,14 @@ const Restaurant: React.FC<{name: string; open: number; close: number; address: 
 
   return (
     <div className="restaurant">
-      <label>{name}</label>
-      <label>{address}</label>
-      <label>{open}</label>
-      <label>{close}</label>
+      <div className="name-address">
+        <label className="name">{name}</label>
+        <label className="address">{address}</label>
+      </div>
+      <div className="hours">
+        <label className="open">Open: {open}:00</label>
+        <label className="close">Close: {close}:00</label>
+      </div>
       <button onClick={makeReservation}>MAKE RESERVATION</button>
     </div>
   );
