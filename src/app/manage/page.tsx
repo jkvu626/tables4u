@@ -77,12 +77,10 @@ const Edit: React.FC = () => {
 
     const handleAddTable = () => {
         const seats = document.getElementById('seats') as HTMLInputElement
-        const tid = document.getElementById('tid') as HTMLInputElement
 
-        if (seats.value != '' && tid.value != '') {
+        if (seats.value != '') {
             instance.post('/addtable'   , {
                 username: username,
-                tid: tid.value,
                 seats: seats.value
             }).then(function (response) {
                 const status =  response.data.statusCode;
@@ -91,7 +89,7 @@ const Edit: React.FC = () => {
                     setTables(Object.values(response.data.tables))
                     console.log("TABLE ADDED")
                 } else {
-                    setErr(response.data.error)
+                    setErr(JSON.stringify(response.data.error))
                 }
             })
         } else {
@@ -225,7 +223,6 @@ const Edit: React.FC = () => {
             <label>Close Time: {closetime}:00</label>
             {!isActive && <button onClick={handleActivate}>Activate</button>}
             {!isActive && <div className='createbox'>
-            <InputField label = 'Table ID:' placeholder='' id  = 'tid'/>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
                 <button onClick={handleAddTable}>Add Table</button>
             </div>}

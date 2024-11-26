@@ -12,7 +12,7 @@ const Navbar: React.FC = () => (
     <Link href="/admin" className="nav-link">
       Admin
     </Link>
-    <Link href="/active" className="nav-link">
+    <Link href="/manage" className="nav-link">
       Manage
     </Link>
   </nav>
