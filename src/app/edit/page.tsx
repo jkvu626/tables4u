@@ -3,42 +3,81 @@ import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
+import Table from '@/components/Table';
 
 const instance = axios.create({
     baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
   });
 
-
-const Table: React.FC = () => (
-<div className="makeres">
-    <label>Table X</label>
-    <label>Seats: X</label>
-    <button>REMOVE</button>
-</div>
-);
-
 const Edit: React.FC = () => {
     const router = useRouter();
     const [err, setErr] = React.useState('');
+    const [restname, setRestName] = React.useState('');
+    const [username, setUsername] = React.useState('');
+    const [address, setAddress] = React.useState('');
+    const [tables, setTables] = React.useState([]);
+
+    React.useEffect(() => {
+        instance.post("/restaurants", {"credential": document.cookie})
+        .then(function (response){
+            const status = response.data.statusCode;
+            if (status == 200) {
+                const restaurant = response.data.restaurant;
+                if (restaurant && restaurant.name) {
+                    setRestName(restaurant.name);
+                    setUsername(restaurant.username);
+                    setAddress(restaurant.address);
+                } else {
+                    setErr("Restaurant not found")
+                }
+            } else {
+                setErr("Error fetching restaurant details.")
+            }
+        })
+        .catch((err) => {
+            setErr("Error: " + err.message);
+        })
+    }, [username]);
+
+    React.useEffect(() => {
+        instance.post("/tables_get", {username: username})
+        .then(function (response){
+            console.log(response.data.tables)
+            const status = response.data.statusCode;
+            if (status == 200) {
+                setTables(Object.values(response.data.tables))
+            } else {
+                console.log(response.data.err)
+                console.log("TABLE ERROR")
+                setTables([])
+            }
+        })
+    }, [username])
+
+    React.useEffect(() => {
+        if (username) {
+            console.log("USERNAME SET TO: " + username);
+        }
+    }, [username]);  // This runs whenever `username` changes
 
     const handleAvailability = () => {
         router.push('/availability');
     };
 
     const handleAddTable = () => {
-        const user = document.getElementById('user') as HTMLInputElement
         const seats = document.getElementById('seats') as HTMLInputElement
         const tid = document.getElementById('tid') as HTMLInputElement
 
-        if (user.value != '' && seats.value != '' && tid.value != '') {
+        if (seats.value != '' && tid.value != '') {
             instance.post('/addtable'   , {
-                username: user.value,
+                username: username,
                 tid: tid.value,
                 seats: seats.value
             }).then(function (response) {
                 const status =  response.data.statusCode;
                 if (status == 200) {
                     setErr('')
+                    setTables(Object.values(response.data.tables))
                     console.log("TABLE ADDED")
                 } else {
                     setErr(response.data.error)
@@ -49,47 +88,17 @@ const Edit: React.FC = () => {
         }
     }
 
-    const handleActivate = () => {
+    const handleEdit = () => {
         const rename = document.getElementById('name') as HTMLInputElement
-        const user = document.getElementById('user') as HTMLInputElement
 
-        console.log(rename.value)
-        console.log(user.value)
-
-        if (user && document.cookie) {
-            instance.post('/activate', {"username":user.value, "credential":document.cookie})
-                .then(function (response) {
-                    let status = response.data.statusCode
-                    let restaurant = response.data.body
-
-                    console.log(restaurant)
-
-                    if (status == 200) {
-                        router.push('/active')
-                    } else {
-                        setErr(response.data.error)
-                    }
-                })
-                .catch(function (error) {
-                    if (error.response) {
-                        // The request was made, and the server responded with a status code outside the 2xx range
-                        console.error("API responded with an error:");
-                        console.error("Status code:", error.response.status);
-                        console.error("Response data:", error.response.data);
-                        console.error("Headers:", error.response.headers);
-                    
-                        setErr(`API error (${error.response.status}): ${error.response.data.message || 'Unknown error'}`);
-                }})
-        }
-
-        if (rename.value != '' && user.value != '') {
+        if (rename.value != '' && username != '') {
             instance.post('/edit', {
                 name: rename.value,
-                username: user.value
+                username: username
             }).then(function (response) {
                 const status = response.data.statusCode;
                 if (status == 200) {
-                    router.push('/active')
+                    setRestName(rename.value)
                 } else {
                     setErr(response.data.error)
                 }
@@ -122,14 +131,41 @@ const Edit: React.FC = () => {
         } else {
             setErr('Fields empty')
         }
+    }
+
+    const handleActivate = () => {
+        if (username && document.cookie) {
+            instance.post('/activate', {"username":username, "credential":document.cookie})
+                .then(function (response) {
+                    let status = response.data.statusCode
+                    let restaurant = response.data.body
+
+                    console.log(restaurant)
+
+                    if (status == 200) {
+                        router.push('/active')
+                    } else {
+                        setErr(response.data.error)
+                    }
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        // The request was made, and the server responded with a status code outside the 2xx range
+                        console.error("API responded with an error:");
+                        console.error("Status code:", error.response.status);
+                        console.error("Response data:", error.response.data);
+                        console.error("Headers:", error.response.headers);
+                    
+                        setErr(`API error (${error.response.status}): ${error.response.data.message || 'Unknown error'}`);
+                }})
+        }
     };
 
     return (
         <div className='content-create'>
         <div className='createbox'>
-            <h2>Restaurant Name</h2>
-            <InputField label ='Name:' placeholder='' id  ='name'/>
-            <InputField label ='User:' placeholder='' id  ='user'/>
+            <h2>{restname}</h2>
+            <label>{address}</label>
             <button onClick={handleActivate}>Activate</button>
             <div className='createbox'>
             <InputField label = 'Table ID:' placeholder='' id  = 'tid'/>
@@ -138,16 +174,22 @@ const Edit: React.FC = () => {
                 <label className="error">{err}</label>
             </div>
             <div className='createbox'>
-                <Table/>
-                <Table/>
+                {tables?.map(({tableid, seats}) => (
+                    <Table
+                    key={tableid}
+                    tableid={tableid}
+                    seats={seats}
+                    /> 
+                ))}
             </div>
         </div>
         <div className='createbox'>
-            <h2>Enter Date</h2>
-            <InputField label = 'Date' placeholder=''/>
-            <button>Open Day</button>
-            <button>Close Day</button>
-            <button onClick={handleAvailability}>View Availability</button>
+            <h2>Edit Restaurant Details</h2>
+            <InputField label = 'Name ' placeholder='' id='name'/>
+            <InputField label = 'Address ' placeholder=''/>
+            <InputField label = 'Open ' placeholder=''/>
+            <InputField label = 'Close ' placeholder=''/>
+            <button onClick={handleEdit}>Make Changes</button>
         </div>
     </div>
     );

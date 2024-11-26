@@ -1,9 +1,64 @@
 /* RESTAURANT COMPONENT */
 .restaurant {
+    display: grid; /* Use grid layout */
+    grid-template-columns: 1fr auto auto; /* Three columns: left (flexible), middle, and button */
+    align-items: center; /* Vertically align all items */
+    gap: 20px; /* Space between columns */
+    border: 2px solid black; /* Add a black border */
+    padding: 10px; /* Add padding */
+    border-radius: 8px; /* Optional: Rounded corners */
+}
+
+/* Name and address container */
+.name-address {
+    display: flex;
+    flex-direction: column; /* Stack name above address */
+    width: 200px; /* Fixed width to maintain alignment */
+}
+
+/* Style the name to be bold */
+.name {
+    font-weight: bold;
+    white-space: nowrap; /* Prevent name from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for long names */
+}
+
+/* Address styling */
+.address {
+    font-size: 14px; /* Optional: Smaller font for the address */
+}
+
+/* Hours container */
+.hours {
+    display: flex;
+    flex-direction: column; /* Stack open above close */
+    text-align: left; /* Center-align the text */
+    width: 100px; /* Fixed width for consistent alignment */
+}
+/* Style the button */
+
+button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #FF9F1C;
+    color: black;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #bd7615; /* Darker blue on hover */
+}
+
+/* TABLE COMPONENT */
+
+.table {
     display: flex; /* Align items horizontally */
-    justify-content: space-between; /* Evenly space out items */
-    align-items: center; /* Align inputs and labels vertically */
-    gap: 20px; /* Maintain space between items if needed */
+    gap: 20px; /* Add space between label-input pairs */
+    align-items: center; /* Align inputs and labels vertically */ 
     border: 2px solid black; /* Add a black border with 2px thickness */
     padding: 10px; /* Add padding inside the border */
     border-radius: 8px; /* Optional: Rounded corners */
