@@ -28,8 +28,9 @@ const Edit: React.FC = () => {
                             setIsActive(true)
                         } else {
                             setIsActive(false)
-                            setErr(response.data.error)
                         }
+                    } else {
+                        setErr(response.data.error)
                     } 
                 })
                 .catch(function (error) {
@@ -46,7 +47,7 @@ const Edit: React.FC = () => {
     
     const deleteRestaurant = () => {
         if (document.cookie && restaurant) {
-            instance.post('/delete', {"username":restaurant['name'], "credential":document.cookie})
+            instance.post('/delete', {"username":restaurant['username'], "credential":document.cookie})
                 .then(function(response) {
                     let status = response.data.statusCode
                     if (status == 200) {
@@ -73,7 +74,7 @@ const Edit: React.FC = () => {
 
     const handleActivate = () => {
         if (document.cookie && restaurant) {
-            instance.post('/activate', {"username":restaurant['name'], "credential":document.cookie})
+            instance.post('/activate', {"username":restaurant['username'], "credential":document.cookie})
                 .then(function (response) {
                     let status = response.data.statusCode
 
