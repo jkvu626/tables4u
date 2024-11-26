@@ -10,7 +10,10 @@ const instance = axios.create({
 
 const Admin: React.FC = () => {
   const [restaurants, setRestaurants] = React.useState([]);
+  const [refresh, setRefresh] = React.useState(0)
   const router = useRouter()
+  
+  const refreshTrigger = () => setRefresh(refresh + 1)
 
   React.useEffect(() => {
     instance.post("/restaurants", {"credential": document.cookie}).then(function (response){
@@ -27,7 +30,7 @@ const Admin: React.FC = () => {
       }
     })
 
-  }, [router])
+  }, [refresh, router])
   return(
   <div className='content'>
     <div className="filter">
@@ -43,13 +46,15 @@ const Admin: React.FC = () => {
       </label>
     </div>
     <div className="searchbox">
-      {restaurants?.map(({name, open, close, address}) => (
+      {restaurants?.map(({name, open, close, address, username}) => (
         <AdminRestaurant 
         key={name}
         name={name} 
         open={open}
         close={close}
         address={address}
+        username={username}
+        refresh={refreshTrigger}
         />
       ))}
     </div>
