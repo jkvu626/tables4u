@@ -23,11 +23,14 @@ const Edit: React.FC = () => {
                     let status = response.data.statusCode
                     let active = response.data.restaurant.active
                     if (status == 200) {
-                        if (active) {setIsActive(true)}
                         setRestaurant(response.data.restaurant)
-                    } else {
-                        setErr(response.data.error)
-                    }
+                        if (active) {
+                            setIsActive(true)
+                        } else {
+                            setIsActive(false)
+                            setErr(response.data.error)
+                        }
+                    } 
                 })
                 .catch(function (error) {
                     if (error.response) {
@@ -36,7 +39,29 @@ const Edit: React.FC = () => {
                         console.error("Status code:", error.response.status);
                         console.error("Response data:", error.response.data);
                         console.error("Headers:", error.response.headers);
-                    
+                        setErr(`API error (${error.response.status}): ${error.response.data.message || 'Unknown error'}`);
+                }})
+        }
+    }
+    
+    const deleteRestaurant = () => {
+        if (document.cookie && restaurant) {
+            instance.post('/delete', {"username":restaurant['name'], "credential":document.cookie})
+                .then(function(response) {
+                    let status = response.data.statusCode
+                    if (status == 200) {
+                        router.push('/')
+                    } else {
+                        setErr(response.data.error)
+                    }
+                })
+                .catch(function(error) {
+                    if (error.response) {
+                        // The request was made, and the server responded with a status code outside the 2xx range
+                        console.error("API responded with an error:");
+                        console.error("Status code:", error.response.status);
+                        console.error("Response data:", error.response.data);
+                        console.error("Headers:", error.response.headers);
                         setErr(`API error (${error.response.status}): ${error.response.data.message || 'Unknown error'}`);
                 }})
         }
@@ -98,6 +123,7 @@ const Edit: React.FC = () => {
                 <Table/>
                 <Table/>
             </div>
+            <button onClick={deleteRestaurant}>Delete Restaurant</button>
         </div>
         <div className='createbox'>
             <h2>Enter Date</h2>
