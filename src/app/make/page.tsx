@@ -1,5 +1,4 @@
 import React from 'react';
-import Table from '../../components/Table';
 
 const Make: React.FC = () => (
   <div className='content'>
@@ -13,9 +12,6 @@ const Make: React.FC = () => (
       </label>
     </div>
     <div className="findbox">
-      <Table />
-      <Table />
-      <Table />
     </div>
   </div>
 );
