@@ -71,29 +71,6 @@ const Edit: React.FC = () => {
         }
     }, [username]);  // This runs whenever `username` changes
 
-    const handleAddTable = () => {
-        const seats = document.getElementById('seats') as HTMLInputElement
-        const tid = document.getElementById('tid') as HTMLInputElement
-
-        if (seats.value != '' && tid.value != '') {
-            instance.post('/addtable'   , {
-                username: username,
-                tid: tid.value,
-                seats: seats.value
-            }).then(function (response) {
-                const status =  response.data.statusCode;
-                if (status == 200) {
-                    setErr('')
-                    setTables(Object.values(response.data.tables))
-                    console.log("TABLE ADDED")
-                } else {
-                    setErr(response.data.error)
-                }
-            })
-        } else {
-            setErr("Fields not filled out")
-        }
-    }
 
     const handleEdit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -208,13 +185,56 @@ const Edit: React.FC = () => {
             <div className="table">
                 <label>Table {tableid}</label>
                 <label>Seats: {seats}</label>
-                {!isActive && <button>REMOVE</button>}
+                {!isActive && <button onClick={() => deleteTable(tableid)}>REMOVE</button>}
             </div>
             );
 
-    const deleteTable = () => {
-        router.push('/RemoveTable');
+    
+    const handleAddTable = () => {
+        const seats = document.getElementById('seats') as HTMLInputElement
+        const tid = document.getElementById('tid') as HTMLInputElement
+
+        if (seats.value != '' && tid.value != '') {
+            instance.post('/addtable'   , {
+                username: username,
+                tid: tid.value,
+                seats: seats.value
+            }).then(function (response) {
+                const status =  response.data.statusCode;
+                if (status == 200) {
+                    setErr('')
+                    setTables(Object.values(response.data.tables))
+                    console.log("TABLE ADDED")
+                } else {
+                    setErr(response.data.error)
+                }
+            })
+        } else {
+            setErr("Fields not filled out")
+        }
     }
+
+
+    const deleteTable = (tableid:number) => {
+        if (username) {
+            instance.post('/RemoveTables', {"username": username, "tableid": tableid
+            }).then(function (response) {
+                const status = response.data.statusCode;
+                if (status == 200) {
+                    setErr('')
+                    setTables(Object.values(response.data.tables))
+                }
+                else {
+                    setErr(JSON.stringify(response.data.error))
+                }
+            })       
+        } else {
+            setErr("Username error")
+        }
+    }
+
+    
+
     return (
         <div className='content-create'>
         <div className='createbox'>
@@ -249,7 +269,6 @@ const Edit: React.FC = () => {
                 <label className="error">{err}</label>
             </form>}
             <button onClick={deleteRestaurant}>Delete Restaurant</button>
-            <button onClick={deleteTable}>Delete Tables</button>
         </div>
     </div>
     );
