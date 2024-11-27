@@ -1,77 +1,59 @@
-import mysql from 'mysql'
+'use client'
+import React, { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import InputField from '@/components/InputField';
 
-export const handler = async (event) => {
-    var pool = mysql.createPool({
-        host:'tables4u.cdikygok8rdg.us-east-2.rds.amazonaws.com',
-        user: "admin",
-        password: "sidewalkslammers",
-        database: "tables4u"
-    })
-    
-    let isAdmin = (cred) =>{
-        return new Promise((resolve, reject) => {
-            pool.query('SELECT credential FROM restaurants WHERE username=\'admin\'', [cred], (error, row) => {
-                if(error){reject("database error")}
-                if(row.length == 1 && row[0].credential == cred){resolve(true)}
-                resolve(false)
-            })
-        })
-    };
+const instance = axios.create({
+    baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
+  })
 
-    let getRestaurant = (cred) =>{
-        return new Promise((resolve, reject) => {
-            pool.query('SELECT username FROM restaurants WHERE credential=?', [cred], (error, row) => {
-                if(error){reject("database error")}
-                if(row.length != 1){reject("no such restaurant")}
-                resolve(row[0])
-            })
-        })
-    };
+const Login: React.FC = () => {
+  const router = useRouter();
+  const [load, setLoad] = React.useState({visibility: 'hidden'} as React.CSSProperties)
+  const [err, setErr] = React.useState('');
 
-    let delTables = (username) => {
-        return new Promise((resolve, reject) => {
-            pool.query('DELETE FROM tables WHERE username=?', [username], (error) => {
-                if(error){reject("failed to delete tables")}
-                resolve()
-            })
-        })
-    }
-
-    let delRestaurant = (username) =>{
-        return new Promise((resolve, reject) => {
-            pool.query('DELETE FROM restaurants WHERE username=?', [username], (error, num) => {
-                if(error){reject("failed to delete")}
-                if(num == 0){reject("no such restaurant")}
-                resolve(username)
-            })
-        })
-    };
-
-    let response
-
-    try{
-        const owner = await getRestaurant(event.credential)
-        const admin = await isAdmin(event.credential)
-        if(admin || owner.username == event.username){
-            await delTables(event.username)
-            const del = await delRestaurant(event.username)
-            response = {
-                statusCode: 200,
-                success: "deleted " + del
-            }
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const username = document.getElementById("username") as HTMLInputElement;
+    const password = document.getElementById("password") as HTMLInputElement;
+    setLoad({visibility: 'visible'})
+    instance.post('/login', {"username":username.value, "password":password.value}).then(function (response) {
+      const status = response.data.statusCode;
+      if (status == 200) {
+        document.cookie = response.data.credential;
+        if(username.value == 'admin'){
+          router.push('/admin')
         }else{
-            response = {
-                statusCode: 400,
-                error: "insufficient permissions"
-            }
+          router.push('/manage');
         }
-    }catch(err){
-        response = {
-            statusCode: 400,
-            error: err
-        }
-    }
+        
+      }else{
+        setErr(response.data.error);
+        setLoad({visibility: 'hidden'})
+      }
+    })
+    .catch(function (error: React.SetStateAction<string>) {
+        setErr('failed to log in: ' + error);
+        setLoad({visibility: 'hidden'})
+    })
+  };
 
-    pool.end()
-    return response
+  
+  return(
+    <div className='content'>
+        <h2>Enter Credentials</h2>
+        <form onSubmit={handleLogin}>
+          <InputField id = 'username' label = 'Username' placeholder=''/>
+          <InputField id = 'password' label = 'Password' placeholder='' type='password'/>
+          <button type="submit">Log In</button>
+          {/*eslint-disable-next-line @next/next/no-img-element*/}
+          <img src='/loading-7528_128.gif' alt="" id='loading' style={load}/>
+          <label className="error">{err}</label>
+        </form>
+    </div>
+  );
 }
+
+
+export default Login;
