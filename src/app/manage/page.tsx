@@ -8,7 +8,7 @@ const instance = axios.create({
     baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
   });
 
-const Edit: React.FC = () => {
+const Manage: React.FC = () => {
     const router = useRouter();
     const [err, setErr] = React.useState('');
 
@@ -19,9 +19,12 @@ const Edit: React.FC = () => {
     const [opentime, setOpen] = React.useState(0);
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
+    
 
     React.useEffect(() => {
-        instance.post("/restaurants", {"credential": document.cookie})
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        if(!credential){router.replace('/login')}
+        instance.post("/restaurants", {"credential": credential})
         .then(function (response){
             const status = response.data.statusCode;
             if (status == 200) {
@@ -153,8 +156,9 @@ const Edit: React.FC = () => {
     }
 
     const deleteRestaurant = () => {
-        if (document.cookie && username) {
-            instance.post('/delete', {"username":username, "credential":document.cookie})
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        if (credential && username) {
+            instance.post('/delete', {"username":username, "credential":credential})
                 .then(function(response) {
                     const status = response.data.statusCode
                     if (status == 200) {
@@ -176,8 +180,9 @@ const Edit: React.FC = () => {
     }
 
     const handleActivate = () => {
-        if (document.cookie && username) {
-            instance.post('/activate', {"username":username, "credential":document.cookie})
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        if (credential && username) {
+            instance.post('/activate', {"username":username, "credential":credential})
                 .then(function (response) {
                     const status = response.data.statusCode
 
@@ -270,4 +275,4 @@ const Edit: React.FC = () => {
     );
 };
 
-export default Edit;
+export default Manage;

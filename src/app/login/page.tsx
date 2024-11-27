@@ -21,7 +21,7 @@ const Login: React.FC = () => {
     instance.post('/login', {"username":username.value, "password":password.value}).then(function (response) {
       const status = response.data.statusCode;
       if (status == 200) {
-        document.cookie = response.data.credential;
+        document.cookie = "credential=" + response.data.credential;
         if(username.value == 'admin'){
           router.push('/admin')
         }else{
