@@ -156,8 +156,9 @@ const Manage: React.FC = () => {
     }
 
     const deleteRestaurant = () => {
-        if (document.cookie && username) {
-            instance.post('/delete', {"username":username, "credential":document.cookie})
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        if (credential && username) {
+            instance.post('/delete', {"username":username, "credential":credential})
                 .then(function(response) {
                     const status = response.data.statusCode
                     if (status == 200) {
@@ -179,8 +180,9 @@ const Manage: React.FC = () => {
     }
 
     const handleActivate = () => {
-        if (document.cookie && username) {
-            instance.post('/activate', {"username":username, "credential":document.cookie})
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        if (credential && username) {
+            instance.post('/activate', {"username":username, "credential":credential})
                 .then(function (response) {
                     const status = response.data.statusCode
 

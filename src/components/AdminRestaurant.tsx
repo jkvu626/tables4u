@@ -26,7 +26,8 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
 
   const deleteRestaurant = () => {
     if(confirm("Are you sure you want to delete " + name + "?")){
-      instance.post('/delete', {"credential":document.cookie, "username":username}).then((response) => {
+      const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+      instance.post('/delete', {"credential":credential, "username":username}).then((response) => {
         const status = response.data.statusCode;
         if(status == 200){
           refresh()
