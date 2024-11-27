@@ -21,7 +21,7 @@ const Table: React.FC = () => (
 </div>
 );
 
-const Create: React.FC = () => {
+const Cancel: React.FC = () => {
     const hours = Array.from({ length: 24 }, (_, index) =>
       `${index.toString().padStart(2, '0')}:00`
     );
@@ -64,4 +64,4 @@ const Create: React.FC = () => {
     );
   };
 
-export default Create;
+export default Cancel;

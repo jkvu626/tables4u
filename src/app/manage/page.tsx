@@ -8,7 +8,7 @@ const instance = axios.create({
     baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
   });
 
-const Edit: React.FC = () => {
+const Manage: React.FC = () => {
     const router = useRouter();
     const [err, setErr] = React.useState('');
 
@@ -270,4 +270,4 @@ const Edit: React.FC = () => {
     );
 };
 
-export default Edit;
+export default Manage;
