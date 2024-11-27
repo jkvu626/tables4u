@@ -12,11 +12,11 @@ const Admin: React.FC = () => {
   const [restaurants, setRestaurants] = React.useState([]);
   const [refresh, setRefresh] = React.useState(0)
   const router = useRouter()
-  
   const refreshTrigger = () => setRefresh(refresh + 1)
 
   React.useEffect(() => {
-    instance.post("/restaurants", {"credential": document.cookie}).then(function (response){
+    const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+    instance.post("/restaurants", {"credential": credential}).then(function (response){
       const status = response.data.statusCode;
       if (status == 200) {
         if(!response.data.restaurants){

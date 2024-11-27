@@ -19,9 +19,11 @@ const Manage: React.FC = () => {
     const [opentime, setOpen] = React.useState(0);
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
+    
 
     React.useEffect(() => {
-        instance.post("/restaurants", {"credential": document.cookie})
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        instance.post("/restaurants", {"credential": credential})
         .then(function (response){
             const status = response.data.statusCode;
             if (status == 200) {
