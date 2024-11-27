@@ -23,6 +23,7 @@ const Manage: React.FC = () => {
 
     React.useEffect(() => {
         const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        if(!credential){router.replace('/login')}
         instance.post("/restaurants", {"credential": credential})
         .then(function (response){
             const status = response.data.statusCode;

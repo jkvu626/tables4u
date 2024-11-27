@@ -16,11 +16,12 @@ const Admin: React.FC = () => {
 
   React.useEffect(() => {
     const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+    if(!credential){router.replace('/login')}
     instance.post("/restaurants", {"credential": credential}).then(function (response){
       const status = response.data.statusCode;
       if (status == 200) {
         if(!response.data.restaurants){
-          router.push('/login')
+          router.replace('/login')
         }else{
           setRestaurants(Object.values(response.data.restaurants))
         }
