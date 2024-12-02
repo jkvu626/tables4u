@@ -3,16 +3,17 @@ import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
 import './components.css'
 
-const Restaurant: React.FC<{name: string; open: number; close: number; address: string}> = ({
+const Restaurant: React.FC<{name: string; open: number; close: number; address: string, username: string}> = ({
   name, 
   address,
   open,
-  close
+  close,
+  username
  }) => {
   const router = useRouter(); // Use useRouter from next/navigation
 
   const makeReservation = () => {
-    router.push('/make'); // Perform navigation to /make
+    router.push('/make?rest=' + username); // Perform navigation to /make
   };
 
   return (

@@ -5,7 +5,7 @@ const Header: React.FC = () => (
   <header className="header">
     <div className="header-content">
       <h1 className="header-title">
-        Tables<span className="highlight">4U</span>
+        <Link href="/"  style={{ textDecoration: 'none', color: 'inherit'}}>Tables<span className="highlight">4U</span></Link>
       </h1>
       <div className="header-buttons">
         <Link href="/login" className="header-button">
