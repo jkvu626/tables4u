@@ -51,7 +51,7 @@ const Manage: React.FC = () => {
         .catch((err) => {
             setErr("Error: " + err.message);
         })
-    }, []);
+    }, [router]);
 
     React.useEffect(() => {
         instance.post("/tables_get", {username: username})

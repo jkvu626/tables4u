@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { FormEvent } from 'react';
+import React, { FormEvent, Suspense } from 'react';
 
 const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
@@ -19,7 +19,7 @@ function packageDate(date: string, time: string){
   return result
 }
 
-const Make: React.FC = () => {
+const MakeSuspended: React.FC = () => {
   const params = useSearchParams()
   const router = useRouter()
   const [err, setErr] = React.useState('');
@@ -65,5 +65,11 @@ const Make: React.FC = () => {
     </div>
   );
 }
+
+const Make: React.FC = () => (
+  <Suspense>
+    <MakeSuspended />
+  </Suspense>
+)
 
 export default Make;
