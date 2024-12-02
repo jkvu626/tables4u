@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios';
 import { useSearchParams, useRouter} from 'next/navigation';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 interface reservation {
   tableid: number,
@@ -18,7 +18,7 @@ const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
 })
 
-const Find: React.FC = () => {
+const FindSuspended: React.FC = () => {
   const router = useRouter()
   const params = useSearchParams()
   const [res, setRes] = React.useState({} as reservation)
@@ -65,5 +65,9 @@ const Find: React.FC = () => {
 );
 }
 
-
+const Find: React.FC = () => (
+  <Suspense>
+    <FindSuspended />
+  </Suspense>
+)
 export default Find;
