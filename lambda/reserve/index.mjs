@@ -33,13 +33,13 @@ export const handler = async (event) => {
         })
     };
 
-    let getReservation = (username, date) => {
+    let getReservation = (username, date, seats) => {
         return new Promise((resolve, reject) => {
             let query = `SELECT tableid FROM tables WHERE
-            username=? AND (username, tableid) NOT IN
+            username=? AND seats>=? AND (username, tableid) NOT IN
             (SELECT username, tableid FROM reservations WHERE 
             time=? AND day=? AND month=? AND year=?)`
-            pool.query(query, [username, date.time, date.day, date.month, date.year],
+            pool.query(query, [username, seats, date.time, date.day, date.month, date.year],
                  (error, row) => {
                 if(error){reject("invalid request")}
                 if(row && row.length > 0){resolve(row[0].tableid)}
@@ -51,7 +51,7 @@ export const handler = async (event) => {
     let response
 
     try{
-        const tableid = await getReservation(event.username, event.date)
+        const tableid = await getReservation(event.username, event.date, event.seats)
         const result = await makeReservation(event.username, event.date, event.seats, tableid, event.email)
         response = {
             statusCode: 200,

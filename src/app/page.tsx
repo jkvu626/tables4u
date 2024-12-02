@@ -7,10 +7,6 @@ import { useRouter } from 'next/navigation';
 const Home: React.FC = () => {
   const router = useRouter();
 
-  const handleReservationSearch = () => {
-    router.push('/find');
-  };
-
   const handleRestaurantSearch = () => {
     router.push('/search');
   };
@@ -18,20 +14,20 @@ const Home: React.FC = () => {
   return (
     <div className='content'>
       <h1>How can we help you?</h1>
-      <div>
+      <form action='/find' method="get">
         <h2>Find Your Reservation</h2>
         <label>
           Email:
-          <input type="email" placeholder="Enter your email" />
+          <input name="email" type="email" placeholder="Enter your email" />
         </label>
         <br />
         <label>
           Confirmation Code:
-          <input type="text" placeholder="Enter your code" />
+          <input name="code" type="text" placeholder="Enter your code" />
         </label>
         <br />
-        <button onClick={handleReservationSearch}>Search</button>
-      </div>
+        <button type="submit">Search</button>
+      </form>
       <div>
         <h2>Find Restaurants</h2>
         <label>
