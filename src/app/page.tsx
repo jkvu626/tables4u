@@ -14,7 +14,7 @@ const Home: React.FC = () => {
   return (
     <div className='content'>
       <h1>How can we help you?</h1>
-      <form action='/find' method="get">
+      <form action='/find/' method="get">
         <h2>Find Your Reservation</h2>
         <label>
           Email:
