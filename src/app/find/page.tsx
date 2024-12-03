@@ -11,7 +11,8 @@ interface reservation {
   time: number,
   email: string,
   code: string,
-  numguests: number
+  numguests: number,
+  name: string
 }
 
 const instance = axios.create({
@@ -49,15 +50,15 @@ const FindSuspended: React.FC = () => {
 
   return(
   <div className='content'>
-    <h2>RESTAURANT NAME</h2>
+    <h2>{res.name ? res.name : 'Loading'}</h2>
     <div>
       <div className="findbox">
         <h3>Your Reservation</h3>
-        <label>Confirmation Code: {res.code? res.code : 'XXXXX'}</label>
-        <label>Date: {res.month ? res.month + '/' + res.day + '/' + res.year : 'XX/XX/XXXX'}</label>
-        <label>Time: {res.time ? res.time + ':00' : 'XX:XX'}</label>
-        <label>Table: {res.tableid ? res.tableid : 'X'}</label>
-        <label>Guests: {res.numguests ? res.numguests : 'X'}</label>
+        <label>Confirmation Code: {res.code? res.code : 'Loading...'}</label>
+        <label>Date: {res.month ? res.month + '/' + res.day + '/' + res.year : 'Loading...'}</label>
+        <label>Time: {res.time ? res.time + ':00' : 'Loading...'}</label>
+        <label>Table: {res.tableid ? res.tableid : 'Loading...'}</label>
+        <label>Guests: {res.numguests ? res.numguests : 'Loading...'}</label>
         <button onClick={cancelRes}>Cancel Reservation</button>
         <label className="error">{err}</label>
       </div>
