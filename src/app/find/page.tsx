@@ -50,7 +50,7 @@ const FindSuspended: React.FC = () => {
 
   return(
   <div className='content'>
-    <h2>{res.name ? res.name : 'Loading'}</h2>
+    <h2>{res.name ? res.name : 'Loading...'}</h2>
     <div>
       <div className="findbox">
         <h3>Your Reservation</h3>
