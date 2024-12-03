@@ -53,6 +53,7 @@ const FindSuspended: React.FC = () => {
     <div>
       <div className="findbox">
         <h3>Your Reservation</h3>
+        <label>Confirmation Code: {res.code? res.code : 'XXXXX'}</label>
         <label>Date: {res.month ? res.month + '/' + res.day + '/' + res.year : 'XX/XX/XXXX'}</label>
         <label>Time: {res.time ? res.time + ':00' : 'XX:XX'}</label>
         <label>Table: {res.tableid ? res.tableid : 'X'}</label>
