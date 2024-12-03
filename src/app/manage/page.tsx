@@ -235,7 +235,37 @@ const Manage: React.FC = () => {
         }
     }
 
-    
+    const handleOpen = () => {
+        const day = document.getElementById('day') as HTMLInputElement
+        const month = document.getElementById('month') as HTMLInputElement
+        const year = document.getElementById('year') as HTMLInputElement
+
+        alert("Open " + day.value + month.value + year.value)
+    }
+
+    const handleClose = () => {
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        const day = document.getElementById('day') as HTMLInputElement
+        const month = document.getElementById('month') as HTMLInputElement
+        const year = document.getElementById('year') as HTMLInputElement
+
+        if (day && month && year) {
+            instance.post('/close', {"username": username, "credential": credential, "day": day.value, "month": month.value, "year": year.value})
+                .then(function(response) {
+                    const status = response.data.statusCode;
+                    if (status == 200) {
+                        // something here. maybe we should add a table that shows closed dates?
+                        setErr("")
+                    }
+                    else {
+                        setErr(response.data.error)
+                    }
+                })
+        }
+        else {
+            setErr("Please fill out all fields")
+        }
+    }
 
     return (
         <div className='content-create'>
@@ -270,6 +300,15 @@ const Manage: React.FC = () => {
                 <label className="error">{err}</label>
             </form>}
             <button onClick={deleteRestaurant}>Delete Restaurant</button>
+        </div>
+        <div className='createbox'>
+            <h3>Open or Close a Future Date</h3>
+                <InputField label='Day ' id='day' placeholder=''/>
+                <InputField label='Month ' id='month' placeholder=''/>
+                <InputField label='Year ' id='year' placeholder=''/>
+                <button onClick={handleOpen}>Open</button>
+                <button onClick={handleClose}>Close</button>
+                <label className='error'>{err}</label>
         </div>
     </div>
     );

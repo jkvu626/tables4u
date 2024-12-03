@@ -62,7 +62,7 @@ export const handler = async (event) => {
                 else {
                     response.statusCode = 400
                 }
-                response.restaurants = result
+                response.restaurant = result
             } else { 
                 response.statusCode = 400
                 response.error = "Not a future date"
