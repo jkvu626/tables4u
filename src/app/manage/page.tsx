@@ -259,17 +259,24 @@ const Manage: React.FC = () => {
                 ))}
             </div>
         </div>
-        <div className='createbox'>
-            {!isActive && <h2>Edit Restaurant Details</h2>}
-            {!isActive && <form className='editform' onSubmit={handleEdit}>
-                <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
-                <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
-                <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
-                <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
-                <button type='submit'>Make Changes</button>
-                <label className="error">{err}</label>
-            </form>}
-            <button onClick={deleteRestaurant}>Delete Restaurant</button>
+        <div className='column'>
+            <div className='createbox'>
+                {!isActive && <h2>Edit Restaurant Details</h2>}
+                {!isActive && <form className='editform' onSubmit={handleEdit}>
+                    <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
+                    <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
+                    <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
+                    <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
+                    <button type='submit'>Make Changes</button>
+                    <label className="error">{err}</label>
+                </form>}            
+            </div>
+            <div style={{alignContent: 'center'}} className='createbox'>
+                <h2>Check Availabity</h2>
+                <form className='dateform'>
+                    <InputField label='Date ' placeholder='XX/XX/XXXX' id='date'/>
+                </form>
+            </div>
         </div>
     </div>
     );
