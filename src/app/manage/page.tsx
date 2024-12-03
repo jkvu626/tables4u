@@ -22,9 +22,6 @@ const Manage: React.FC = () => {
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
 
-
-    
-
     React.useEffect(() => {
         const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
         if(!credential){router.replace('/login')}
@@ -71,6 +68,13 @@ const Manage: React.FC = () => {
             }
         })
     }, [username])
+
+    React.useEffect(() => {
+        if (username) {
+            console.log("USERNAME SET TO: " + username);
+        }
+    }, [username]);  // This runs whenever `username` changes
+
 
     const handleAddTable = () => {
         const seats = document.getElementById('seats') as HTMLInputElement
