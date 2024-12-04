@@ -11,12 +11,6 @@ const instance = axios.create({
 
 const Manage: React.FC = () => {
     const router = useRouter();
-<<<<<<< HEAD
-=======
-    const [err, setErr] = React.useState('');
-    const [closeErr, setCloseErr] = React.useState('');
->>>>>>> 5d5feb4 (fixed "close" error messages)
-
     const [err, setErr] = React.useState('');
     const [closeErr, setCloseErr] = React.useState('');
     const [isActive, setIsActive] = React.useState(true)
