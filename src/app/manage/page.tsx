@@ -4,15 +4,16 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
 
+
 const instance = axios.create({
     baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
   });
 
 const Manage: React.FC = () => {
     const router = useRouter();
+
     const [err, setErr] = React.useState('');
     const [closeErr, setCloseErr] = React.useState('');
-
     const [isActive, setIsActive] = React.useState(true)
     const [restname, setRestName] = React.useState('');
     const [username, setUsername] = React.useState('');
@@ -20,6 +21,8 @@ const Manage: React.FC = () => {
     const [opentime, setOpen] = React.useState(0);
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
+
+
     
 
     React.useEffect(() => {
@@ -68,13 +71,6 @@ const Manage: React.FC = () => {
             }
         })
     }, [username])
-
-    React.useEffect(() => {
-        if (username) {
-            console.log("USERNAME SET TO: " + username);
-        }
-    }, [username]);  // This runs whenever `username` changes
-
 
     const handleAddTable = () => {
         const seats = document.getElementById('seats') as HTMLInputElement
@@ -235,6 +231,8 @@ const Manage: React.FC = () => {
             setErr("Username error")
         }
     }
+    const [date, setDate] = React.useState(''); 
+
 
     const handleOpen = () => {
         const day = document.getElementById('day') as HTMLInputElement
@@ -267,6 +265,13 @@ const Manage: React.FC = () => {
             setCloseErr("Please fill out all fields")
         }
     }
+    const handleDate = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); 
+        console.log(e.currentTarget.date.value)
+        setDate(e.currentTarget.date.value);
+        router.push(`/availability?date=${encodeURIComponent(e.currentTarget.date.value)}`);
+    };
+
 
     return (
         <div className='content-create'>
@@ -291,16 +296,24 @@ const Manage: React.FC = () => {
             </div>
         </div>
         <div className='createbox'>
-            {!isActive && <h2>Edit Restaurant Details</h2>}
-            {!isActive && <form className='editform' onSubmit={handleEdit}>
-                <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
-                <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
-                <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
-                <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
-                <button type='submit'>Make Changes</button>
-                <label className="error">{err}</label>
-            </form>}
-            <button onClick={deleteRestaurant}>Delete Restaurant</button>
+            <div className='stackbox'>
+                {!isActive && <h2>Edit Restaurant Details</h2>}
+                {!isActive && <form className='editform' onSubmit={handleEdit}>
+                    <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
+                    <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
+                    <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
+                    <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
+                    <button type='submit'>Make Changes</button>
+                    <label className="error">{err}</label>
+                </form>}            
+            </div>
+            <div style={{alignContent: 'center'}} className='stackbox'>
+                <h2>Check Availabity</h2>
+                <form className='dateform' onSubmit={handleDate}>
+                    <InputField label='Date ' placeholder='XX/XX/XXXX' id='date'/>
+                    <button type='submit'>Check Availability</button>
+                </form>
+            </div>
         </div>
         <div className='createbox'>
             <h3>Open or Close a Future Date</h3>

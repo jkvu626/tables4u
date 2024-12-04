@@ -13,7 +13,7 @@ const Restaurant: React.FC<{name: string; open: number; close: number; address: 
   const router = useRouter(); // Use useRouter from next/navigation
 
   const makeReservation = () => {
-    router.push('/make?rest=' + username); // Perform navigation to /make
+    router.push('/make/?rest=' + username); // Perform navigation to /make
   };
 
   return (
