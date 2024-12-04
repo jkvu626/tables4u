@@ -7,16 +7,25 @@ export const handler = async (event) => {
         password: "sidewalkslammers",
         database: "tables4u"
     })
+
+    let getUsername = (credential) => {
+        return new Promise((resolve, reject) => {
+            pool.query('SELECT username FROM tables4u.restaurants WHERE credential=?', [credential], (error, rows) => {
+                if(error){reject(error)}
+                if (rows.length > 0) {
+                    resolve(rows[0].username)
+                } else {
+                    reject("invalid credentials")
+                } 
+            })
+        })
+    }
     
-    let getDates = (username) =>{
+    let getDates = (username) => {
         return new Promise((resolve, reject) => {
             pool.query('SELECT * FROM tables4u.closedDates WHERE username=?', [username], (error, rows) => {
                 if(error){reject("unable to retrieve closed dates")}
-                if (rows.length >= 1) {
-                    return resolve(rows)
-                } else {
-                    return resolve(false)
-                }
+                resolve(rows)
             })
         })
     };
@@ -24,7 +33,8 @@ export const handler = async (event) => {
     let response
 
     try{
-        const result = await getDates(event.username)
+        const username = getUsername(event.credential)
+        const result = await getDates(username)
         if (result) {
             response = {
                 statusCode: 200,
@@ -33,7 +43,7 @@ export const handler = async (event) => {
         } else {
             response = {
                 statusCode: 400,
-                error: "invalid username"
+                error: "invalid credential"
             }
         }
         

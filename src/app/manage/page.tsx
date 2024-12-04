@@ -9,6 +9,13 @@ const instance = axios.create({
     baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
   });
 
+  type CustomDate = {
+    day: number;
+    month: string;
+    year: number;
+    username: string;
+  };
+
 const Manage: React.FC = () => {
     const router = useRouter();
     const [err, setErr] = React.useState('');
@@ -20,6 +27,7 @@ const Manage: React.FC = () => {
     const [opentime, setOpen] = React.useState(0);
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
+    const [dates, setDates] = React.useState<CustomDate[]>([]);
 
     React.useEffect(() => {
         const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
@@ -52,6 +60,19 @@ const Manage: React.FC = () => {
             setErr("Error: " + err.message);
         })
     }, [router]);
+
+    React.useEffect(() => {
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        instance.post('/days_get', {"credential": credential})
+        .then(function (response) {
+            const status = response.data.statusCode;
+            if (status == 200) {
+                setDates(response.data.dates)
+            } else {
+                setErr("Error fetching restaurant beast")
+            }
+        })
+    }, [router])
 
     React.useEffect(() => {
         instance.post("/tables_get", {username: username})
@@ -255,8 +276,8 @@ const Manage: React.FC = () => {
                 .then(function(response) {
                     const status = response.data.statusCode;
                     if (status == 200) {
-                        // something here. maybe we should add a table that shows closed dates?
                         setCloseErr("")
+                        setDates(response.data.dates)
                     }
                     else {
                         setCloseErr(response.data.error)
@@ -267,6 +288,7 @@ const Manage: React.FC = () => {
             setCloseErr("Please fill out all fields")
         }
     }
+
     const handleDate = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
         console.log(e.currentTarget.date.value)
@@ -327,6 +349,13 @@ const Manage: React.FC = () => {
             <label className='error'>{closeErr}</label>
             <div style={{alignContent: 'center'}} className='stackbox'>
                 <h2>Closed Days</h2>
+                <ul>
+                    {dates.map((date, index) => (
+                        <li key={index}>
+                        <p>{date.month}/{date.day}/{date.year}</p>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     </div>

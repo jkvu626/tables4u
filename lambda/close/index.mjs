@@ -31,13 +31,9 @@ export const handler = async (event) => {
             else { return reject(error); }
           }
           if (rows) {
-            pool.query('SELECT * FROM tables4u.restaurants WHERE username=?', [username], (selectError, selectRows) => {
+            pool.query('SELECT * FROM tables4u.closedDates WHERE username=?', [username], (selectError, selectRows) => {
                 if (selectError) { return reject(selectError); }
-                if ((selectRows) && (selectRows.length == 1)) {
-                    return resolve(selectRows);
-                } else {
-                    return resolve(false);
-                }
+                resolve(selectRows);
             })
           }
         })
@@ -53,18 +49,8 @@ export const handler = async (event) => {
 
             if (currentDate < targetDate) {
                 result = await closeDay(event.username, event.day, event.month, event.year)
-                if (result.length == 1) {
-                    response.statusCode = 200
-                    response.restaurant = result
-                }
-                else {
-                    response.statusCode = 400
-                    response.error = result
-                }
-<<<<<<< HEAD
-                response.restaurants = result
-=======
->>>>>>> 5d5feb4 (fixed "close" error messages)
+                response.statusCode = 200
+                response.dates = result
             } else { 
                 response.statusCode = 400
                 response.error = "Not a future date"
