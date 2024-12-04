@@ -11,6 +11,7 @@ const instance = axios.create({
 const Manage: React.FC = () => {
     const router = useRouter();
     const [err, setErr] = React.useState('');
+    const [closeErr, setCloseErr] = React.useState('');
 
     const [isActive, setIsActive] = React.useState(true)
     const [restname, setRestName] = React.useState('');
@@ -249,21 +250,21 @@ const Manage: React.FC = () => {
         const month = document.getElementById('month') as HTMLInputElement
         const year = document.getElementById('year') as HTMLInputElement
 
-        if (day && month && year) {
+        if (day.value && month.value && year.value) {
             instance.post('/close', {"username": username, "credential": credential, "day": day.value, "month": month.value, "year": year.value})
                 .then(function(response) {
                     const status = response.data.statusCode;
                     if (status == 200) {
                         // something here. maybe we should add a table that shows closed dates?
-                        setErr("")
+                        setCloseErr("")
                     }
                     else {
-                        setErr(response.data.error)
+                        setCloseErr(response.data.error)
                     }
                 })
         }
         else {
-            setErr("Please fill out all fields")
+            setCloseErr("Please fill out all fields")
         }
     }
 
@@ -308,7 +309,7 @@ const Manage: React.FC = () => {
                 <InputField label='Year ' id='year' placeholder=''/>
                 <button onClick={handleOpen}>Open</button>
                 <button onClick={handleClose}>Close</button>
-                <label className='error'>{err}</label>
+                <label className='error'>{closeErr}</label>
         </div>
     </div>
     );
