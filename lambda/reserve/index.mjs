@@ -38,8 +38,9 @@ export const handler = async (event) => {
             let query = `SELECT tableid FROM tables WHERE
             username=? AND seats>=? AND (username, tableid) NOT IN
             (SELECT username, tableid FROM reservations WHERE 
-            time=? AND day=? AND month=? AND year=?)`
-            pool.query(query, [username, seats, date.time, date.day, date.month, date.year],
+            time=? AND day=? AND month=? AND year=?) AND (username) NOT IN
+            (SELECT username FROM closedDates where day=? AND month=? AND year=?)`
+            pool.query(query, [username, seats, date.time, date.day, date.month, date.year, date.day, date.month, date.year, username],
                  (error, row) => {
                 if(error){reject("invalid request")}
                 if(row && row.length > 0){resolve(row[0].tableid)}

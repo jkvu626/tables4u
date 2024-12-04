@@ -30,15 +30,24 @@ const MakeSuspended: React.FC = () => {
     const seats = document.getElementById("seats") as HTMLInputElement;
     const dateRaw = document.getElementById("date") as HTMLInputElement;
     const time = document.getElementById("time") as HTMLInputElement;
+    const date = packageDate(dateRaw.value, time.value)
 
-    instance.post('/reserve', {"email":email.value, "date":packageDate(dateRaw.value, time.value), "seats":parseInt(seats.value), "username":params.get('rest')}).then((result) => {
-      const statusCode = result.data.statusCode
-      if(statusCode == 200){
-        router.push('/find/?email='+email.value+'&code='+result.data.code)
-      }else{
-        setErr('failed to create reservation')
-      }
-    });
+    const now = new Date()
+    const target = new Date(date.year, date.month-1, date.day, date.time)
+    
+    if(target > now){
+      instance.post('/reserve', {"email":email.value, "date": date, "seats":parseInt(seats.value), "username":params.get('rest')}).then((result) => {
+        const statusCode = result.data.statusCode
+        if(statusCode == 200){
+          router.push('/find/?email='+email.value+'&code='+result.data.code)
+        }else{
+          setErr(result.data.error)
+        }
+      });
+    }else{
+      setErr('cannot reserve a date in the past')
+    }
+
   }
 
   return(

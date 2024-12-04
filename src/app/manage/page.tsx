@@ -303,6 +303,7 @@ const Manage: React.FC = () => {
             <label>{address}</label>
             <label>Open Time: {opentime}:00</label>
             <label>Close Time: {closetime}:00</label>
+            <button onClick={deleteRestaurant}>Delete restaurant</button>
             {!isActive && <button onClick={handleActivate}>Activate</button>}
             {!isActive && <div className='createbox'>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
