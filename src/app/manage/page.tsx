@@ -4,14 +4,14 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
 
+
 const instance = axios.create({
     baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
   });
 
 const Manage: React.FC = () => {
     const router = useRouter();
-    const [err, setErr] = React.useState('');
-
+    const [err, setErr] = React.useState(''); 
     const [isActive, setIsActive] = React.useState(true)
     const [restname, setRestName] = React.useState('');
     const [username, setUsername] = React.useState('');
@@ -19,6 +19,8 @@ const Manage: React.FC = () => {
     const [opentime, setOpen] = React.useState(0);
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
+
+
     
 
     React.useEffect(() => {
@@ -67,13 +69,6 @@ const Manage: React.FC = () => {
             }
         })
     }, [username])
-
-    React.useEffect(() => {
-        if (username) {
-            console.log("USERNAME SET TO: " + username);
-        }
-    }, [username]);  // This runs whenever `username` changes
-
 
     const handleAddTable = () => {
         const seats = document.getElementById('seats') as HTMLInputElement
@@ -234,8 +229,14 @@ const Manage: React.FC = () => {
             setErr("Username error")
         }
     }
+    const [date, setDate] = React.useState(''); 
 
-    
+    const handleDate = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); 
+        console.log(e.currentTarget.date.value)
+        setDate(e.currentTarget.date.value);
+        router.push(`/availability?date=${encodeURIComponent(e.currentTarget.date.value)}`);
+    };
 
     return (
         <div className='content-create'>
@@ -259,8 +260,8 @@ const Manage: React.FC = () => {
                 ))}
             </div>
         </div>
-        <div className='column'>
-            <div className='createbox'>
+        <div className='createbox'>
+            <div className='stackbox'>
                 {!isActive && <h2>Edit Restaurant Details</h2>}
                 {!isActive && <form className='editform' onSubmit={handleEdit}>
                     <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
@@ -271,10 +272,11 @@ const Manage: React.FC = () => {
                     <label className="error">{err}</label>
                 </form>}            
             </div>
-            <div style={{alignContent: 'center'}} className='createbox'>
+            <div style={{alignContent: 'center'}} className='stackbox'>
                 <h2>Check Availabity</h2>
-                <form className='dateform'>
+                <form className='dateform' onSubmit={handleDate}>
                     <InputField label='Date ' placeholder='XX/XX/XXXX' id='date'/>
+                    <button type='submit'>Check Availability</button>
                 </form>
             </div>
         </div>
