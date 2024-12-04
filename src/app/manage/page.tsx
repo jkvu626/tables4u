@@ -11,7 +11,9 @@ const instance = axios.create({
 
 const Manage: React.FC = () => {
     const router = useRouter();
-    const [err, setErr] = React.useState(''); 
+
+    const [err, setErr] = React.useState('');
+    const [closeErr, setCloseErr] = React.useState('');
     const [isActive, setIsActive] = React.useState(true)
     const [restname, setRestName] = React.useState('');
     const [username, setUsername] = React.useState('');
@@ -231,12 +233,45 @@ const Manage: React.FC = () => {
     }
     const [date, setDate] = React.useState(''); 
 
+
+    const handleOpen = () => {
+        const day = document.getElementById('day') as HTMLInputElement
+        const month = document.getElementById('month') as HTMLInputElement
+        const year = document.getElementById('year') as HTMLInputElement
+
+        alert("Open " + day.value + month.value + year.value)
+    }
+
+    const handleClose = () => {
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
+        const day = document.getElementById('day') as HTMLInputElement
+        const month = document.getElementById('month') as HTMLInputElement
+        const year = document.getElementById('year') as HTMLInputElement
+
+        if (day.value && month.value && year.value) {
+            instance.post('/close', {"username": username, "credential": credential, "day": day.value, "month": month.value, "year": year.value})
+                .then(function(response) {
+                    const status = response.data.statusCode;
+                    if (status == 200) {
+                        // something here. maybe we should add a table that shows closed dates?
+                        setCloseErr("")
+                    }
+                    else {
+                        setCloseErr(response.data.error)
+                    }
+                })
+        }
+        else {
+            setCloseErr("Please fill out all fields")
+        }
+    }
     const handleDate = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
         console.log(e.currentTarget.date.value)
         setDate(e.currentTarget.date.value);
         router.push(`/availability?date=${encodeURIComponent(e.currentTarget.date.value)}`);
     };
+
 
     return (
         <div className='content-create'>
@@ -279,6 +314,15 @@ const Manage: React.FC = () => {
                     <button type='submit'>Check Availability</button>
                 </form>
             </div>
+        </div>
+        <div className='createbox'>
+            <h3>Open or Close a Future Date</h3>
+                <InputField label='Day ' id='day' placeholder=''/>
+                <InputField label='Month ' id='month' placeholder=''/>
+                <InputField label='Year ' id='year' placeholder=''/>
+                <button onClick={handleOpen}>Open</button>
+                <button onClick={handleClose}>Close</button>
+                <label className='error'>{closeErr}</label>
         </div>
     </div>
     );
