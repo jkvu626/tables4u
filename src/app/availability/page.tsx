@@ -1,20 +1,12 @@
 'use client'
 import React from 'react';
 import axios from 'axios';
-import { useSearchParams, useRouter } from 'next/navigation';
-import InputField from '@/components/InputField';
+import { useSearchParams } from 'next/navigation';
 import Reservation from '@/components/Reservation';
 
 const instance = axios.create({
   baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
 });
-
-const Table: React.FC = () => (
-<div className="makeres">
-    <label>Table X</label>
-    <label>RESERVED</label>
-</div>
-);
 
 const Availability: React.FC = () => {
     const searchParams = useSearchParams(); // Access query parameters
@@ -44,7 +36,7 @@ const Availability: React.FC = () => {
           setReservations([])
         }
       })
-    }, [reservations])
+    })
 
     React.useEffect(() => {
       if (date) {
