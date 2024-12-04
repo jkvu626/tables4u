@@ -163,7 +163,6 @@ body {
   gap: 5px; /* Add space between label-input pairs */
   width: 100%;
   align-items: center; /* Align inputs and labels vertically */ 
-  border: 2px solid black; /* Add a black border with 2px thickness */
   padding: 20px; /* Add padding inside the border */
   margin-top: 5px;
   margin-bottom: 5px;

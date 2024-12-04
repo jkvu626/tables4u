@@ -231,7 +231,6 @@ const Manage: React.FC = () => {
             setErr("Username error")
         }
     }
-    const [date, setDate] = React.useState(''); 
 
 
     const handleOpen = () => {
@@ -268,7 +267,6 @@ const Manage: React.FC = () => {
     const handleDate = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
         console.log(e.currentTarget.date.value)
-        setDate(e.currentTarget.date.value);
         router.push(`/availability?date=${encodeURIComponent(e.currentTarget.date.value)}`);
     };
 
@@ -285,7 +283,8 @@ const Manage: React.FC = () => {
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
                 <button onClick={handleAddTable}>Add Table</button>
             </div>}
-            <div className='createbox'>
+            <div className='stackbox'>
+                <h2>Tables</h2>
                 {tables?.map(({tableid, seats}) => (
                     <Table
                     key={tableid}
@@ -296,17 +295,17 @@ const Manage: React.FC = () => {
             </div>
         </div>
         <div className='createbox'>
-            <div className='stackbox'>
-                {!isActive && <h2>Edit Restaurant Details</h2>}
-                {!isActive && <form className='editform' onSubmit={handleEdit}>
+            {!isActive && <div className='stackbox'>
+                <h2>Edit Restaurant Details</h2>
+                <form className='editform' onSubmit={handleEdit}>
                     <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
                     <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
                     <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
                     <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
                     <button type='submit'>Make Changes</button>
                     <label className="error">{err}</label>
-                </form>}            
-            </div>
+                </form>      
+            </div>}
             <div style={{alignContent: 'center'}} className='stackbox'>
                 <h2>Check Availabity</h2>
                 <form className='dateform' onSubmit={handleDate}>
