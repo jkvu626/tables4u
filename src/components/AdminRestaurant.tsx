@@ -19,6 +19,10 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
  }) => {
   const [err, setErr] = React.useState('')
   const router = useRouter(); // Use useRouter from next/navigation
+  const [available, setAvail] = React.useState('')
+  const [utilization, setUtil] = React.useState('')
+
+  
 
   const makeReservation = () => {
     router.push('/make'); // Perform navigation to /make
@@ -61,6 +65,11 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
         <button>DELETE RESERVATION</button>
         <button onClick={deleteRestaurant}>DELETE RESTAURANT</button>
         <label className='error'>{err}</label>
+      </div>
+      <div className='spacer'></div>
+      <div className='info'>
+        <label>AVAILABLE TABLES: </label>
+        <label>UTILIZATION: </label>
       </div>
     </div>
   );  
