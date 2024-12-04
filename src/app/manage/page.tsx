@@ -327,7 +327,7 @@ const Manage: React.FC = () => {
                     <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
                     <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
                     <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
-                    <button type='submit'>Make Changes</button>
+                    <button type='submit'>Make Changes</button><button onClick={deleteRestaurant}>Delete restaurant</button>
                     <label className="error">{err}</label>
                 </form>      
             </div>}
