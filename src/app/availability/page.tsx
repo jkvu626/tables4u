@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { Suspense } from 'react';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 import Reservation from '@/components/Reservation';
@@ -8,7 +8,7 @@ const instance = axios.create({
   baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
 });
 
-const Availability: React.FC = () => {
+const SuspendedAvailability: React.FC = () => {
     const searchParams = useSearchParams(); // Access query parameters
     const date = searchParams.get('date'); // Get the 'date' query parameter
     const [day, setDay] = React.useState<number | null>(null);  // Change type to number
@@ -74,5 +74,11 @@ const Availability: React.FC = () => {
       </div>
     );
   };
+
+const Availability: React.FC = () => (
+  <Suspense>
+    <SuspendedAvailability />
+  </Suspense>
+)
 
 export default Availability;
