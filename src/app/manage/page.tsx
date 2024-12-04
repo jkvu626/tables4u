@@ -328,7 +328,6 @@ const Manage: React.FC = () => {
                     <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
                     <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
                     <button type='submit'>Make Changes</button>
-                    <button onClick={deleteRestaurant}>Delete Restaurant</button>
                     <label className="error">{err}</label>
                 </form>      
             </div>}
