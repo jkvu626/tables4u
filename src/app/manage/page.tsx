@@ -303,6 +303,7 @@ const Manage: React.FC = () => {
             <label>{address}</label>
             <label>Open Time: {opentime}:00</label>
             <label>Close Time: {closetime}:00</label>
+            <button onClick={deleteRestaurant}>Delete restaurant</button>
             {!isActive && <button onClick={handleActivate}>Activate</button>}
             {!isActive && <div className='createbox'>
                 <InputField label = 'Seats:' placeholder='Number of Seats' id  = 'seats'/>
@@ -327,7 +328,7 @@ const Manage: React.FC = () => {
                     <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
                     <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
                     <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
-                    <button type='submit'>Make Changes</button><button onClick={deleteRestaurant}>Delete restaurant</button>
+                    <button type='submit'>Make Changes</button>
                     <label className="error">{err}</label>
                 </form>      
             </div>}
