@@ -34,7 +34,7 @@ const MakeSuspended: React.FC = () => {
     instance.post('/reserve', {"email":email.value, "date":packageDate(dateRaw.value, time.value), "seats":parseInt(seats.value), "username":params.get('rest')}).then((result) => {
       const statusCode = result.data.statusCode
       if(statusCode == 200){
-        router.push('/find?email='+email.value+'&code='+result.data.code)
+        router.push('/find/?email='+email.value+'&code='+result.data.code)
       }else{
         setErr('failed to create reservation')
       }
