@@ -61,7 +61,10 @@ export const handler = async (event) => {
                     response.statusCode = 400
                     response.error = result
                 }
+<<<<<<< HEAD
                 response.restaurants = result
+=======
+>>>>>>> 5d5feb4 (fixed "close" error messages)
             } else { 
                 response.statusCode = 400
                 response.error = "Not a future date"
