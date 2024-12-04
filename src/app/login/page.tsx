@@ -3,6 +3,7 @@ import React, { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import InputField from '@/components/InputField';
+import { useAuth } from '@/components/AuthProvider';
 
 const instance = axios.create({
     baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
@@ -13,6 +14,8 @@ const Login: React.FC = () => {
   const [load, setLoad] = React.useState({visibility: 'hidden'} as React.CSSProperties)
   const [err, setErr] = React.useState('');
 
+  const { setCredential } = useAuth()
+
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const username = document.getElementById("username") as HTMLInputElement;
@@ -21,7 +24,8 @@ const Login: React.FC = () => {
     instance.post('/login', {"username":username.value, "password":password.value}).then(function (response) {
       const status = response.data.statusCode;
       if (status == 200) {
-        document.cookie = "credential=" + response.data.credential;
+        document.cookie = 'credential=' + response.data.credential
+        setCredential(response.data.credential)
         if(username.value == 'admin'){
           router.push('/admin')
         }else{

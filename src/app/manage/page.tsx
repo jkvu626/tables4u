@@ -3,6 +3,7 @@ import React, { FormEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
+import { useAuth } from '@/components/AuthProvider';
 
 
 const instance = axios.create({
@@ -29,8 +30,9 @@ const Manage: React.FC = () => {
     const [tables, setTables] = React.useState([]);
     const [dates, setDates] = React.useState<CustomDate[]>([]);
 
+    const { credential } = useAuth()
+
     React.useEffect(() => {
-        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
         if(!credential){router.replace('/login')}
         instance.post("/restaurants", {"credential": credential})
         .then(function (response){
@@ -59,7 +61,7 @@ const Manage: React.FC = () => {
         .catch((err) => {
             setErr("Error: " + err.message);
         })
-    }, [router]);
+    }, [router, credential]);
 
     React.useEffect(() => {
         const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];

@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 import Reservation from '@/components/Reservation';
+import { useAuth } from '@/components/AuthProvider';
 
 const instance = axios.create({
   baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
@@ -17,10 +18,9 @@ const SuspendedAvailability: React.FC = () => {
 
     const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
     const [reservations, setReservations] = React.useState([])
-
+    const { credential } = useAuth()
 
     React.useEffect(() => {
-      const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
       instance.post("/finddate", {
         cred: credential,
         day: day,
