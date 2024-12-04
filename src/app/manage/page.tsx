@@ -319,12 +319,15 @@ const Manage: React.FC = () => {
         </div>
         <div className='createbox'>
             <h3>Open or Close a Future Date</h3>
-                <InputField label='Day ' id='day' placeholder=''/>
-                <InputField label='Month ' id='month' placeholder=''/>
-                <InputField label='Year ' id='year' placeholder=''/>
-                <button onClick={handleOpen}>Open</button>
-                <button onClick={handleClose}>Close</button>
-                <label className='error'>{closeErr}</label>
+            <InputField label='Day ' id='day' placeholder=''/>
+            <InputField label='Month ' id='month' placeholder=''/>
+            <InputField label='Year ' id='year' placeholder=''/>
+            <button onClick={handleOpen}>Open</button>
+            <button onClick={handleClose}>Close</button>
+            <label className='error'>{closeErr}</label>
+            <div style={{alignContent: 'center'}} className='stackbox'>
+                <h2>Closed Days</h2>
+            </div>
         </div>
     </div>
     );
