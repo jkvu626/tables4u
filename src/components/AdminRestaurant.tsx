@@ -19,10 +19,8 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
  }) => {
   const [err, setErr] = React.useState('')
   const router = useRouter(); // Use useRouter from next/navigation
-  const [available, setAvail] = React.useState('')
-  const [utilization, setUtil] = React.useState('')
 
-  
+
 
   const makeReservation = () => {
     router.push('/make'); // Perform navigation to /make
@@ -42,6 +40,11 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
     }
   }
 
+  const availReport = () => {
+    console.log(username)
+    router.push(`/report?username=${encodeURIComponent(username)}`);
+  }
+
   // const deleteReservation = () => {
   //   router.push('/delete');
   // }
@@ -49,7 +52,7 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
   return (
     <div className="adminrestaurant">
       <div className="info">
-        <label style={{ fontWeight: 'bold' }}>{name}</label>
+        <label style={{ fontWeight: 'bold' }} id='username'>{name}</label>
         <label style={active ? {color: 'green'} : {color: 'red'}}>{active ? 'Active' : 'Inactive'}</label>
         <label>{address}</label>
       </div>
@@ -68,8 +71,7 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
       </div>
       <div className='spacer'></div>
       <div className='info'>
-        <label>AVAILABLE TABLES: </label>
-        <label>UTILIZATION: </label>
+        <button onClick={availReport}>AVAILABILITY REPORT</button>
       </div>
     </div>
   );  
