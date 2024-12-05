@@ -38,14 +38,22 @@ const FindSuspended: React.FC = () => {
   })
 
   const cancelRes = () =>{
-    instance.post("/cancel", {"email": res.email, "code":res.code}).then(function (response){
-      const statusCode = response.data.statusCode
-      if(statusCode == 200){
-        router.push('/')
-      }else{
-        setErr(response.data.error)
-      }
-    })
+    const now = new Date()
+    const target = new Date(res.year, res.month-1, res.day, res.time)
+
+    if(target > now){
+      instance.post("/cancel", {"email": res.email, "code":res.code}).then(function (response){
+        const statusCode = response.data.statusCode
+        if(statusCode == 200){
+          router.push('/')
+        }else{
+          setErr(response.data.error)
+        }
+      })
+    }else{
+      setErr("cannot cancel a reservation less than a day in advance")
+    }
+
   }
 
   return(
