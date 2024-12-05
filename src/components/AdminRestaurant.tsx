@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
 import './components.css'
 import axios from 'axios';
+import { useAuth } from './AuthProvider';
 
 const instance = axios.create({
   baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
@@ -24,9 +25,10 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
     router.push('/make'); // Perform navigation to /make
   };
 
+  const { credential } = useAuth()
+  
   const deleteRestaurant = () => {
     if(confirm("Are you sure you want to delete " + name + "?")){
-      const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
       instance.post('/delete', {"credential":credential, "username":username}).then((response) => {
         const status = response.data.statusCode;
         if(status == 200){

@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
 import axios from 'axios';
 import AdminRestaurant from '@/components/AdminRestaurant';
+import { useAuth } from '@/components/AuthProvider';
 
 const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
@@ -13,25 +14,29 @@ const Admin: React.FC = () => {
   const [refresh, setRefresh] = React.useState(0)
   const router = useRouter()
   const refreshTrigger = () => setRefresh(refresh + 1)
+  const { credential, loading } = useAuth()
 
   React.useEffect(() => {
-    const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
-    if(!credential){router.replace('/login')}
-    instance.post("/restaurants", {"credential": credential}).then(function (response){
-      const status = response.data.statusCode;
-      if (status == 200) {
-        if(!response.data.restaurants){
-          router.replace('/login')
-        }else{
-          setRestaurants(Object.values(response.data.restaurants))
-        }
+    if(!loading){
+      if(!credential){
+        router.replace('/login')
+      }else{
+        instance.post("/restaurants", {"credential": credential}).then(function (response){
+          const status = response.data.statusCode;
+          if (status == 200) {
+            if(!response.data.restaurants){
+              router.replace('/login')
+            }else{
+              setRestaurants(Object.values(response.data.restaurants))
+            }
+          }
+          else {
+            router.replace('/login')
+          }
+        })
       }
-      else {
-        router.push('/login')
-      }
-    })
-
-  }, [refresh, router])
+    }
+  }, [refresh, router, credential, loading])
   return(
   <div className='content'>
     <div className="filter">

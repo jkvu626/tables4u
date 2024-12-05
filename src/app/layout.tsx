@@ -2,6 +2,7 @@
 import './globals.css'; // Import global styles
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import AuthProvider from '@/components/AuthProvider';
 
 export const metadata = {
   title: 'Tables4U',
@@ -16,13 +17,15 @@ export default function RootLayout({
   
   return (
     <html lang="en">
-      <body>
-        <Header />
-        <Navbar />
-        <main>
-          {children}
-        </main>
-      </body>
+      <AuthProvider>
+        <body>
+          <Header />
+          <Navbar />
+          <main>
+            {children}
+          </main>
+        </body>
+      </AuthProvider>
     </html>
   );
 }

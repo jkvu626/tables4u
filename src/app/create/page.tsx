@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
+import { useAuth } from '@/components/AuthProvider';
 
 // Axios instance with base URL
 const instance = axios.create({
@@ -12,6 +13,8 @@ const instance = axios.create({
 const Create: React.FC = () => {
   const router = useRouter();
   const [err, setErr] = React.useState('');
+
+  const { setCredential } = useAuth()
 
   const handleCreate = () => {
     console.log("HandleCreate function invoked."); // Debug: Log function call
@@ -55,7 +58,7 @@ const Create: React.FC = () => {
           const status = response.data.statusCode;
           if (status === 200) {
             console.log("Restaurant created successfully. Redirecting to /edit."); // Debug: Log successful creation
-            document.cookie = 'credential=' + response.data.credential;
+            setCredential(response.data.credential);
             router.push('/manage');
           } else {
             console.warn("Error from API:", response.data.error); // Debug: Log API error
