@@ -56,16 +56,16 @@ const MakeSuspended: React.FC = () => {
           <div className="findbox">
             <h3>Make Reservation</h3>
             <label>
-              Email: <input type="email" id='email'/>
+              Email: <input type="email" id='email'placeholder='example@example.com'/>
             </label>
             <label>
-              Date: <input type="text" id='date'/>
+              Date: <input type="text" id='date' placeholder='MM/DD/YYYY'/>
             </label>
             <label>
-              Time: <input type="text" id='time'/>
+              Time: <input type="text" id='time' placeholder='HH:00'/>
             </label>
             <label>
-              Number of Guests: <input type="number" id='seats'/>
+              Number of Guests: <input type="number" id='seats' defaultValue={1}/>
             </label>
             <button type='submit'>Reserve</button>
           </div>
