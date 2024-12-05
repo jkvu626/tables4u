@@ -39,7 +39,7 @@ const FindSuspended: React.FC = () => {
 
   const cancelRes = () =>{
     const now = new Date()
-    const target = new Date(res.year, res.month-1, res.day, res.time)
+    const target = new Date(res.year, res.month-1, res.day)
 
     if(target > now){
       instance.post("/cancel", {"email": res.email, "code":res.code}).then(function (response){
