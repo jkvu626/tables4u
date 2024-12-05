@@ -4,17 +4,20 @@ import { createContext, Dispatch, SetStateAction, useContext, useEffect, useStat
 interface IAuthContext{
     credential: string
     setCredential: Dispatch<SetStateAction<string>>,
+    loading: boolean
 }
 
 const AuthContext = createContext<IAuthContext>({
     credential: '',
-    setCredential: () => {}
+    setCredential: () => {},
+    loading: true
 })
 
 export const useAuth = () => useContext(AuthContext)
 
 const AuthProvider = ({ children }: Readonly<{children: React.ReactNode}>) => {
     const [credential, setCredential] = useState('');
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const cred = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
@@ -23,10 +26,11 @@ const AuthProvider = ({ children }: Readonly<{children: React.ReactNode}>) => {
         }else{
             setCredential('')
         }
+        setLoading(false)
     }, [])
 
     return(
-        <AuthContext.Provider value={{ credential, setCredential}}>
+        <AuthContext.Provider value={{ credential, setCredential, loading}}>
           {children}
         </AuthContext.Provider>
     );

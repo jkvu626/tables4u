@@ -30,41 +30,45 @@ const Manage: React.FC = () => {
     const [tables, setTables] = React.useState([]);
     const [dates, setDates] = React.useState<CustomDate[]>([]);
 
-    const { credential } = useAuth()
+    const { credential, loading} = useAuth()
 
     React.useEffect(() => {
-        if(!credential){router.replace('/login')}
-        instance.post("/restaurants", {"credential": credential})
-        .then(function (response){
-            const status = response.data.statusCode;
-            if (status == 200) {
-                const restaurant = response.data.restaurant;
-                const active = response.data.restaurant.active
-                if (restaurant && restaurant.name) {
-                    setRestName(restaurant.name);
-                    setUsername(restaurant.username);
-                    setAddress(restaurant.address);
-                    setOpen(restaurant.open);
-                    setClose(restaurant.close);
-                    if (active) {
-                        setIsActive(true)
+        if(!loading){
+            if(!credential){
+                router.replace('/login')
+            }else{
+                instance.post("/restaurants", {"credential": credential})
+                .then(function (response){
+                    const status = response.data.statusCode;
+                    if (status == 200) {
+                        const restaurant = response.data.restaurant;
+                        const active = response.data.restaurant.active
+                        if (restaurant && restaurant.name) {
+                            setRestName(restaurant.name);
+                            setUsername(restaurant.username);
+                            setAddress(restaurant.address);
+                            setOpen(restaurant.open);
+                            setClose(restaurant.close);
+                            if (active) {
+                                setIsActive(true)
+                            } else {
+                                setIsActive(false)
+                            }
+                        } else {
+                            setErr("Restaurant not found")
+                        }
                     } else {
-                        setIsActive(false)
+                        setErr("Error fetching restaurant details.")
                     }
-                } else {
-                    setErr("Restaurant not found")
-                }
-            } else {
-                setErr("Error fetching restaurant details.")
+                })
+                .catch((err) => {
+                    setErr("Error: " + err.message);
+                })
             }
-        })
-        .catch((err) => {
-            setErr("Error: " + err.message);
-        })
-    }, [router, credential]);
+        } 
+    }, [router, credential, loading]);
 
     React.useEffect(() => {
-        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
         instance.post('/days_get', {"credential": credential})
         .then(function (response) {
             const status = response.data.statusCode;
@@ -74,7 +78,7 @@ const Manage: React.FC = () => {
                 setErr("Error fetching restaurant beast")
             }
         })
-    }, [router])
+    }, [credential, router])
 
     React.useEffect(() => {
         instance.post("/tables_get", {username: username})
@@ -179,7 +183,6 @@ const Manage: React.FC = () => {
     }
 
     const deleteRestaurant = () => {
-        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
         if (credential && username) {
             instance.post('/delete', {"username":username, "credential":credential})
                 .then(function(response) {
@@ -203,7 +206,6 @@ const Manage: React.FC = () => {
     }
 
     const handleActivate = () => {
-        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
         if (credential && username) {
             instance.post('/activate', {"username":username, "credential":credential})
                 .then(function (response) {
@@ -268,7 +270,6 @@ const Manage: React.FC = () => {
     }
 
     const handleClose = () => {
-        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
         const day = document.getElementById('day') as HTMLInputElement
         const month = document.getElementById('month') as HTMLInputElement
         const year = document.getElementById('year') as HTMLInputElement

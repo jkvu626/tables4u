@@ -14,25 +14,29 @@ const Admin: React.FC = () => {
   const [refresh, setRefresh] = React.useState(0)
   const router = useRouter()
   const refreshTrigger = () => setRefresh(refresh + 1)
-  const {credential} = useAuth()
+  const { credential, loading } = useAuth()
 
   React.useEffect(() => {
-    if(!credential){router.replace('/login')}
-    instance.post("/restaurants", {"credential": credential}).then(function (response){
-      const status = response.data.statusCode;
-      if (status == 200) {
-        if(!response.data.restaurants){
-          router.replace('/login')
-        }else{
-          setRestaurants(Object.values(response.data.restaurants))
-        }
+    if(!loading){
+      if(!credential){
+        router.replace('/login')
+      }else{
+        instance.post("/restaurants", {"credential": credential}).then(function (response){
+          const status = response.data.statusCode;
+          if (status == 200) {
+            if(!response.data.restaurants){
+              router.replace('/login')
+            }else{
+              setRestaurants(Object.values(response.data.restaurants))
+            }
+          }
+          else {
+            router.replace('/login')
+          }
+        })
       }
-      else {
-        router.push('/login')
-      }
-    })
-
-  }, [refresh, router, credential])
+    }
+  }, [refresh, router, credential, loading])
   return(
   <div className='content'>
     <div className="filter">
