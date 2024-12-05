@@ -258,11 +258,27 @@ const Manage: React.FC = () => {
 
 
     const handleOpen = () => {
+        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
         const day = document.getElementById('day') as HTMLInputElement
         const month = document.getElementById('month') as HTMLInputElement
         const year = document.getElementById('year') as HTMLInputElement
 
-        alert("Open " + day.value + month.value + year.value)
+        if (day.value && month.value && year.value) {
+            instance.post('/open', {"username": username, "credential": credential, "day": day.value, "month": month.value, "year": year.value})
+                .then(function(response) {
+                    const status = response.data.statusCode;
+                    if (status == 200) {
+                        setCloseErr("")
+                        setDates(response.data.dates)
+                    }
+                    else {
+                        setCloseErr(response.data.error)
+                    }
+                })
+        }
+        else {
+            setCloseErr("Please fill out all fields")
+        }
     }
 
     const handleClose = () => {
@@ -349,7 +365,7 @@ const Manage: React.FC = () => {
             <button onClick={handleClose}>Close</button>
             <label className='error'>{closeErr}</label>
             <div style={{alignContent: 'center'}} className='stackbox'>
-                <h2>Closed Days</h2>
+                {dates.length > 0 && <h2>Closed Days</h2>}
                 <ul>
                     {dates.map((date, index) => (
                         <li key={index}>
