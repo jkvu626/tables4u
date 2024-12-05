@@ -41,7 +41,7 @@ const SuspendedAvailability: React.FC = () => {
     React.useEffect(() => {
       if (date) {
           setSelectedDate(date); // Set the selected date
-          const [day, month, year] = date.split('/'); // Split the date string into day, month, and year
+          const [month, day, year] = date.split('/'); // Split the date string into day, month, and year
 
           // Remove leading zeros using parseInt
           setDay(parseInt(day, 10)); // Converts day to integer, removing leading zero if any
