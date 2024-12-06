@@ -1,7 +1,7 @@
 'use client'
 import React, { FormEvent } from 'react';
 import axios from 'axios';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import InputField from '@/components/InputField';
 import AdminReport from '@/components/AdminReport';
 
@@ -13,7 +13,7 @@ const Report: React.FC = () => {
   const searchParams = useSearchParams()
   const username = searchParams.get('username')
 
-  let [selectedDate, setSelectedDate] = React.useState('');
+  const [selectedDate, setSelectedDate] = React.useState('');
 
   const [reservations, setReservations] = React.useState([])
   const [tables, setTables] = React.useState([])
@@ -44,7 +44,7 @@ const Report: React.FC = () => {
           setTables([])
         }
       })
-  }, [selectedDate])
+  }, [selectedDate, username])
 
   React.useEffect(() => {
     console.log("Updated tables:", tables);

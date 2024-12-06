@@ -22,7 +22,7 @@ interface Reservation {
 
 interface TableRow {
   time: number;
-  [key: string]: any;
+  [key: string]: string | number;
 }
 
 interface TableComponentProps {
@@ -50,7 +50,7 @@ const generateData = (tables: Table[], reservations: Reservation[]): TableRow[] 
     });
 
     row.sum = Object.keys(row).filter(key => key.startsWith('availableSeats'))
-                              .reduce((sum, key) => sum + row[key], 0);
+                              .reduce((sum, key) => sum + (row[key] as number), 0);
 
     const totalSeats = tables.reduce((sum, table) => sum + table.seats, 0);
     const totalReservedSeats = reservations.filter(reservation => reservation.time === time)
