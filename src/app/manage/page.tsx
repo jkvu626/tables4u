@@ -188,6 +188,7 @@ const Manage: React.FC = () => {
                 .then(function(response) {
                     const status = response.data.statusCode
                     if (status == 200) {
+                        document.cookie = 'credential=\'\''
                         router.push('/')
                     } else {
                         setErr(response.data.error)
