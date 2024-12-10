@@ -1,4 +1,4 @@
-# To Do (work on a top level bullet point):
+# To Do:
 - Jesse
     - Admin availability report
 - Rodrigo
