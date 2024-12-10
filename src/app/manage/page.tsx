@@ -28,7 +28,7 @@ const Manage: React.FC = () => {
     const [opentime, setOpen] = React.useState(0);
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
-    const [dates, setDates] = React.useState<CustomDate[]>([]);
+    const [dates, setDates] = React.useState([] as CustomDate[]);
 
     const { credential, loading, setCredential} = useAuth()
 
@@ -77,8 +77,7 @@ const Manage: React.FC = () => {
             } else {
                 setErr("Error fetching restaurant beast")
             }
-        })
-    }}, [credential, loading, router])
+        })}, [credential, loading, router])
 
     React.useEffect(() => {
         instance.post("/tables_get", {username: username})
