@@ -78,7 +78,7 @@ const Manage: React.FC = () => {
                 setErr("Error fetching restaurant beast")
             }
         })
-    }, [credential, router])
+    }}, [credential, loading, router])
 
     React.useEffect(() => {
         instance.post("/tables_get", {username: username})
