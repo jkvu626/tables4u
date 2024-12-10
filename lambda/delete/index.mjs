@@ -52,7 +52,7 @@ export const handler = async (event) => {
         }else{
             response = {
                 statusCode: 400,
-                credential: "insufficient permissions"
+                error: "insufficient permissions"
             }
         }
     }catch(err){

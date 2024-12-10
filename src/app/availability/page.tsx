@@ -36,7 +36,7 @@ const SuspendedAvailability: React.FC = () => {
           setReservations([])
         }
       })
-    })
+    }, [credential, day, month, year])
 
     React.useEffect(() => {
       if (date) {
