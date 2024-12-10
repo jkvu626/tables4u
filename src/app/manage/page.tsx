@@ -69,6 +69,7 @@ const Manage: React.FC = () => {
     }, [router, credential, loading]);
 
     React.useEffect(() => {
+        if (!loading) {
         instance.post('/days_get', {"credential": credential})
         .then(function (response) {
             const status = response.data.statusCode;
