@@ -30,7 +30,7 @@ const Manage: React.FC = () => {
     const [tables, setTables] = React.useState([]);
     const [dates, setDates] = React.useState<CustomDate[]>([]);
 
-    const { credential, loading} = useAuth()
+    const { credential, loading, setCredential} = useAuth()
 
     React.useEffect(() => {
         if(!loading){
@@ -189,6 +189,7 @@ const Manage: React.FC = () => {
                     const status = response.data.statusCode
                     if (status == 200) {
                         document.cookie = 'credential=\'\''
+                        setCredential('')
                         router.push('/')
                     } else {
                         setErr(response.data.error)
