@@ -1,20 +1,8 @@
 # To Do (work on a top level bullet point):
-- Manage page - Rodrigo
-    - Manage page that checks for activation (labels if active, input fields populated with values otherwise)
-    - Activate Restaurant button
-    - Delete Restaurant
-- Authentication Check for user - Lev
-    - Check for authentication, redirect to login if not correct
-- Edit functionality - JVu
-    - delete table backend
-    - add/delete table frontend (working list of tables)
-    - add edit time functionality
- 
-# COMPLETED TASKS
-
-- Admin page - Dan
-    - List Restaurants
-    - Delete Restaurant button
-- Authentication Check for admin - Lev
-    - Check for authentication, redirect to login if not correct
-    
+- Jesse
+    - Admin availability report
+- Rodrigo
+    - Admin cancel reservation
+- Dan
+    - Consumer search time
+    - Consumer search name
