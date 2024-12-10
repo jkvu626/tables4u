@@ -183,7 +183,7 @@ const Manage: React.FC = () => {
     }
 
     const deleteRestaurant = () => {
-        if (credential && username) {
+        if (credential && username && confirm("Are you sure you want to delete " + name + "?")) {
             instance.post('/delete', {"username":username, "credential":credential})
                 .then(function(response) {
                     const status = response.data.statusCode
