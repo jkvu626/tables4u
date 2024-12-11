@@ -22,7 +22,10 @@ interface Reservation {
 
 interface TableRow {
   time: number;
-  [key: string]: any;
+  day: number;
+  month: number;
+  year: number;
+  [key: string]: string | number;
 }
 
 interface TableComponentProps {
@@ -33,37 +36,54 @@ interface TableComponentProps {
 const generateData = (tables: Table[], reservations: Reservation[]): TableRow[] => {
   const data: TableRow[] = [];
 
-  for (let time = 0; time < 24; time++) {
-    const row: TableRow = { time };
+  for (const reservation of reservations) {
+    const { time, day, month, year } = reservation;
+    const rowIndex = data.findIndex(
+      (row) => row.time === time && row.day === day && row.month === month && row.year === year
+    );
+
+    let row: TableRow;
+    if (rowIndex === -1) {
+      row = { time, day, month, year };
+      data.push(row);
+    } else {
+      row = data[rowIndex];
+    }
 
     tables.forEach(table => {
       const tableKey = `T${table.tableid}`;
       row[tableKey] = table.seats;
 
       const reservedSeats = reservations.filter(
-        reservation => reservation.tableid === table.tableid && reservation.time === time
-      ).reduce((total, reservation) => total + reservation.numguests, 0);
-      row[`reservedSeats${table.tableid}`] = reservedSeats
+        r => r.tableid === table.tableid &&
+             r.time === time &&
+             r.day === day &&
+             r.month === month &&
+             r.year === year
+      ).reduce((total, r) => total + r.numguests, 0);
+      row[`reservedSeats${table.tableid}`] = reservedSeats;
 
       const availableSeats = table.seats - reservedSeats;
       row[`availableSeats${table.tableid}`] = availableSeats;
     });
 
     row.sum = Object.keys(row).filter(key => key.startsWith('availableSeats'))
-                              .reduce((sum, key) => sum + row[key], 0);
+                              .reduce((sum, key) => sum + (row[key] as number), 0);
 
     const totalSeats = tables.reduce((sum, table) => sum + table.seats, 0);
-    const totalReservedSeats = reservations.filter(reservation => reservation.time === time)
-                                           .reduce((sum, reservation) => sum + reservation.numguests, 0);
-    console.log(totalSeats)
-    console.log(totalReservedSeats)
-    
-    row.utilization = totalSeats === 0 ? '0%' : `${(totalReservedSeats / totalSeats * 100).toFixed(2)}%`;
+    const totalReservedTables = new Set(
+      reservations
+        .filter(
+          (r) =>
+            r.time === time &&
+            r.day === day &&
+            r.month === month &&
+            r.year === year
+        )
+        .map((r) => r.tableid) 
+    ).size; 
+    row.utilization = totalSeats === 0 ? '0%' : `${(totalReservedTables / tables.length * 100).toFixed(2)}%`;
     row.availability = `${(row.sum / totalSeats * 100).toFixed(2)}%`;
-
-    if (totalReservedSeats != 0) {
-      data.push(row);
-    }
   }
 
   return data;
@@ -78,11 +98,11 @@ const TableComponent: React.FC<TableComponentProps> = ({ tables, reservations })
         <thead>
           <tr>
             <th>Time</th>
-            {/* Dynamically create table headers based on the number of tables */}
+            <th>Date</th>
             {tables.map((table) => (
               <th key={table.tableid}>{`T${table.tableid} (${table.seats})`}</th>
             ))}
-            <th>Seats</th>
+            <th>Available Seats</th>
             <th>SUM</th>
             <th>Utilization</th>
             <th>Availability</th>
@@ -91,12 +111,19 @@ const TableComponent: React.FC<TableComponentProps> = ({ tables, reservations })
         <tbody>
           {data.map((row, index) => (
             <tr key={index}>
-              <td>{row.time}</td>
-              {/* Dynamically render table data */}
+              <td>{row.time}:00</td>
+              <td>{`${row.month}/${row.day}/${row.year}`}</td>
               {tables.map((table) => (
                 <td key={table.tableid}>{row[`reservedSeats${table.tableid}`]}</td>
               ))}
-              <td>{tables.map((table) => row[`availableSeats${table.tableid}`]).join(', ')}</td>
+              <td>
+                {tables.map((table, index) => (
+                  <span key={table.tableid}>
+                    Table {table.tableid}: {row[`availableSeats${table.tableid}`]}
+                    {index < tables.length - 1 && <br />}
+                  </span>
+                ))}
+              </td>
               <td>{row.sum}</td>
               <td>{row.utilization}</td>
               <td>{row.availability}</td>
