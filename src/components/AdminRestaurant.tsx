@@ -38,7 +38,7 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
 
   const availReport = () => {
     console.log(username)
-    router.push(`/report?username=${encodeURIComponent(username)}`);
+    router.push(`/report?username=${encodeURIComponent(username)}&name=${encodeURIComponent(name)}`);
   }
 
   // const deleteReservation = () => {

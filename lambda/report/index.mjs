@@ -34,21 +34,31 @@ export const handler = async (event) => {
         })
     }
 
-    let findDate = async (day, month, year, username) => {
+    let findDate = async (startday, startmonth, startyear, endday, endmonth, endyear, username) => {
+        // Prepare SQL query with dynamic values
         const selectDate = `
-        SELECT * FROM reservations WHERE day = ? AND month = ? AND year = ? AND username = ?;
+        SELECT * FROM reservations
+        WHERE username = ?
+        AND (
+            (year = ? AND month = ? AND day >= ? AND day <= ?) 
+            OR
+            (year = ? AND month = ? AND day >= ? AND day <= ?) 
+        );
         `;
 
         return new Promise((resolve, reject) => {
-            pool.query(selectDate, [day, month, year, username], (err, rows) => {
-                if(err) {
-                    console.error("DB Error during SELECT", err)
-                    reject()
+            pool.query(selectDate, [
+                username,                // Bind username
+                startyear, startmonth, startday, endday,  // Bind start and end date info for the start year and month
+                endyear, endmonth, startday, endday   // Bind start and end date info for the end year and month
+            ], (error, results) => {
+                if (error) {
+                    reject(error);  // Reject if there's an error
                 } else {
-                    resolve(rows)
+                    resolve(results);  // Resolve with the query results
                 }
-            }) 
-        })
+            });
+        });
     }
 
     let response
@@ -56,7 +66,16 @@ export const handler = async (event) => {
     try {
         const restaurant = await getByUser(event.username)
         const tables = await getTables(restaurant.username)
-        const reservations = await findDate(event.day, event.month, event.year, restaurant.username)
+
+        const reservations = await findDate(
+            event.startday, 
+            event.startmonth, 
+            event.startyear, 
+            event.endday,
+            event.endmonth,
+            event.endyear,
+            restaurant.username
+        )  
 
         response = {
             statusCode: 200,
