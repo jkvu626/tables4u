@@ -6,11 +6,11 @@ const Reservation: React.FC<{tableid: number; time: number; numguests : number}>
   time,
   numguests
 }) => (
-  <div className="res">
-    <label>Table: {tableid}</label>
-    <label>Time: {time}</label>
-    <label>Guests: {numguests}</label>
-  </div>
+  <tr className="res">
+    <td>{tableid}</td>
+    <td>{time}</td>
+    <td>{numguests}</td>
+  </tr>
 );
 
 export default Reservation;
