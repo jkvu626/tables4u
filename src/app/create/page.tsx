@@ -101,8 +101,8 @@ const Create: React.FC = () => {
         <InputField id="name" label="Name " placeholder="" />
         <InputField id="address" label="Address " placeholder="" />
         <div className="createbox">
-          <InputField id="open" label="Open Time " placeholder="0 - 23" />
-          <InputField id="close" label="Close Time " placeholder="0 - 23" />
+          <InputField id="open" label="Open Time "  pattern='[0-1]?[0-9]:00' placeholder="23:00" />
+          <InputField id="close" label="Close Time "  pattern='[0-1]?[0-9]:00' placeholder="23:00" />
           <button onClick={handleCreate}>Create Restaurant</button>
           <label className="error">{err}</label>
         </div>

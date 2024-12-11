@@ -347,8 +347,8 @@ const Manage: React.FC = () => {
                 <form className='editform' onSubmit={handleEdit}>
                     <InputField label = 'Name ' placeholder='' id='name' defaultValue={restname}/>
                     <InputField label = 'Address ' placeholder='' id='address' defaultValue={address}/>
-                    <InputField label = 'Open ' placeholder='' id='open' type='number' defaultValue={opentime}/>
-                    <InputField label = 'Close ' placeholder='' id='close' type='number' defaultValue={closetime}/>
+                    <InputField label = 'Open ' pattern='[0-2]?[0-9]:00' placeholder='' id='open' type='string' defaultValue={opentime+':00'}/>
+                    <InputField label = 'Close ' pattern='[0-2]?[0-9]:00' placeholder='' id='close' type='string' defaultValue={closetime+':00'}/>
                     <button type='submit'>Make Changes</button>
                     <label className="error">{err}</label>
                 </form>      
