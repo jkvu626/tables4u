@@ -8,11 +8,17 @@ const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
 })
 
+interface IClosedDate{
+  username: string,
+  month: number,
+  day: number,
+  year: number
+}
 
 const Search: React.FC = () => {
   const [restaurants, setRestaurants] = React.useState([]);
   const [filterDate, setDate] = React.useState(new Date());
-  const [closedates, setClosedDates] = React.useState<any[]>([]);
+  const [closedates, setClosedDates] = React.useState<IClosedDate[]>([]);
   const [filterName, setFilterName] = React.useState('')
   const [filterTime, setFilterTime] = React.useState(0)
 
