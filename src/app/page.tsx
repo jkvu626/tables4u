@@ -3,9 +3,17 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/AuthProvider';
 
 const Home: React.FC = () => {
   const router = useRouter();
+  const { credential, loading, admin} = useAuth()
+
+  React.useEffect(() => {
+    if(!loading && credential){
+      router.replace(admin ? '/admin' : '/manage')
+    }
+  }, [credential, loading, router, admin])
 
   const handleRestaurantSearch = () => {
     router.push('/search');

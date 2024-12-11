@@ -30,12 +30,14 @@ const Manage: React.FC = () => {
     const [tables, setTables] = React.useState([]);
     const [dates, setDates] = React.useState([] as CustomDate[]);
 
-    const { credential, loading, setCredential} = useAuth()
+    const { credential, loading, setCredential, admin} = useAuth()
 
     React.useEffect(() => {
         if(!loading){
             if(!credential){
                 router.replace('/login')
+            }else if(admin){
+                router.replace('/admin')
             }else{
                 instance.post("/restaurants", {"credential": credential})
                 .then(function (response){
@@ -66,7 +68,7 @@ const Manage: React.FC = () => {
                 })
             }
         } 
-    }, [router, credential, loading]);
+    }, [router, credential, loading, admin]);
 
     React.useEffect(() => {
         if (!loading) {

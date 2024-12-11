@@ -14,11 +14,11 @@ const Admin: React.FC = () => {
   const [refresh, setRefresh] = React.useState(0)
   const router = useRouter()
   const refreshTrigger = () => setRefresh(refresh + 1)
-  const { credential, loading } = useAuth()
+  const { credential, loading, admin, setAdmin } = useAuth()
 
   React.useEffect(() => {
     if(!loading){
-      if(!credential){
+      if(!credential || !admin){
         router.replace('/login')
       }else{
         instance.post("/restaurants", {"credential": credential}).then(function (response){
@@ -31,12 +31,13 @@ const Admin: React.FC = () => {
             }
           }
           else {
+            setAdmin(false)
             router.replace('/login')
           }
         })
       }
     }
-  }, [refresh, router, credential, loading])
+  }, [refresh, router, credential, loading, admin, setAdmin])
   return(
   <div className='content'>
     <div className="filter">
