@@ -65,35 +65,31 @@ const Manage: React.FC = () => {
                     setErr("Error: " + err.message);
                 })
             }
+            
+            instance.post("/tables_get", {username: username})
+            .then(function (response){
+                console.log(response.data.tables)
+                const status = response.data.statusCode;
+                if (status == 200) {
+                    setTables(Object.values(response.data.tables))
+                } else {
+                    console.log(response.data.err)
+                    console.log("TABLE ERROR")
+                    setTables([])
+                }
+            })
+
+            instance.post('/days_get', {"credential": credential})
+                .then(function (response) {
+                    const status = response.data.statusCode;
+                    if (status == 200) {
+                        setDates(response.data.dates)
+                    } else {
+                        setErr("Error fetching restaurant beast")
+                    }
+                })
         } 
-    }, [router, credential, loading]);
-
-    React.useEffect(() => {
-        if (!loading) {
-        instance.post('/days_get', {"credential": credential})
-        .then(function (response) {
-            const status = response.data.statusCode;
-            if (status == 200) {
-                setDates(response.data.dates)
-            } else {
-                setErr("Error fetching restaurant beast")
-            }
-        })}}, [credential, loading, router])
-
-    React.useEffect(() => {
-        instance.post("/tables_get", {username: username})
-        .then(function (response){
-            console.log(response.data.tables)
-            const status = response.data.statusCode;
-            if (status == 200) {
-                setTables(Object.values(response.data.tables))
-            } else {
-                console.log(response.data.err)
-                console.log("TABLE ERROR")
-                setTables([])
-            }
-        })
-    }, [username])
+    }, [router, credential, loading, username]);
 
     React.useEffect(() => {
         if (username) {
