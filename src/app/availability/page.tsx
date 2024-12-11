@@ -63,8 +63,8 @@ const SuspendedAvailability: React.FC = () => {
               <table className="availability-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th>Table</th>
                     <th>Time</th>
+                    <th>Table</th>
                     <th>Guests</th>
                   </tr>
                 </thead>
