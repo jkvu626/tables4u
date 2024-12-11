@@ -17,7 +17,7 @@ interface IClosedDate{
 
 const Search: React.FC = () => {
   const [restaurants, setRestaurants] = React.useState([]);
-  const [filterDate, setDate] = React.useState(new Date());
+  const [filterDate, setDate] = React.useState(new Date(0));
   const [closedates, setClosedDates] = React.useState<IClosedDate[]>([]);
   const [filterName, setFilterName] = React.useState('')
   const [filterTime, setFilterTime] = React.useState(0)
@@ -36,7 +36,6 @@ const Search: React.FC = () => {
   }, [])
 
   const handleFilter = () => {
-    alert("whaddup beast")
     const name = document.getElementById("name") as HTMLInputElement
     const time = document.getElementById("time") as HTMLInputElement
     const date = document.getElementById("date") as HTMLInputElement
@@ -91,7 +90,7 @@ const Filter = (
         <label>
           Date: <input type="date" id='date'/>
         </label>
-        <InputField label="Time:" placeholder='' id='time'/>
+        <InputField label="Time:" placeholder='23:00' id='time'  pattern='[0-2]?[0-9]:00'/>
         <button onClick={handleFilter}>Filter</button>
       </div>
       <div className="searchbox">

@@ -332,7 +332,7 @@ const Manage: React.FC = () => {
             </div>}
             <div className='stackbox'>
                 <h2>Tables</h2>
-                {tables?.map(({tableid, seats}) => (
+                {tables.map(({tableid, seats}) => (
                     <Table
                     key={tableid}
                     tableid={tableid}
