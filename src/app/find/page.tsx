@@ -35,7 +35,7 @@ const FindSuspended: React.FC = () => {
       }
     })
   
-  })
+  }, [params])
 
   const cancelRes = () =>{
     const now = new Date()

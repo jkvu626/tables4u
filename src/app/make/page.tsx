@@ -8,12 +8,13 @@ const instance = axios.create({
 })
 
 function packageDate(date: string, time: string){
-  const split = date.split('/')
+  const split = date.split('-')
+  console.log(time)
   const result = {
     time: parseInt(time, 10),
-    day: parseInt(split[1], 10),
-    month: parseInt(split[0], 10),
-    year: parseInt(split[2], 10)
+    day: parseInt(split[2], 10),
+    month: parseInt(split[1], 10),
+    year: parseInt(split[0], 10)
   }
 
   return result
@@ -59,10 +60,10 @@ const MakeSuspended: React.FC = () => {
               Email: <input type="email" id='email'placeholder='example@example.com'/>
             </label>
             <label>
-              Date: <input type="text" id='date' placeholder='MM/DD/YYYY'/>
+              Date: <input type="date" id='date'/>
             </label>
             <label>
-              Time: <input type="text" id='time' placeholder='HH:00'/>
+              Time: <input type="text" id='time' pattern='[0-2]?[0-9]:00' placeholder='XX:00'/>
             </label>
             <label>
               Number of Guests: <input type="number" id='seats' defaultValue={1}/>
