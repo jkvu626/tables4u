@@ -28,9 +28,9 @@ const Manage: React.FC = () => {
     const [opentime, setOpen] = React.useState(0);
     const [closetime, setClose] = React.useState(0);
     const [tables, setTables] = React.useState([]);
-    const [dates, setDates] = React.useState<CustomDate[]>([]);
+    const [dates, setDates] = React.useState([] as CustomDate[]);
 
-    const { credential, loading} = useAuth()
+    const { credential, loading, setCredential} = useAuth()
 
     React.useEffect(() => {
         if(!loading){
@@ -69,6 +69,7 @@ const Manage: React.FC = () => {
     }, [router, credential, loading]);
 
     React.useEffect(() => {
+        if (!loading) {
         instance.post('/days_get', {"credential": credential})
         .then(function (response) {
             const status = response.data.statusCode;
@@ -77,8 +78,7 @@ const Manage: React.FC = () => {
             } else {
                 setErr("Error fetching restaurant beast")
             }
-        })
-    }, [credential, router])
+        })}}, [credential, loading, router])
 
     React.useEffect(() => {
         instance.post("/tables_get", {username: username})
@@ -183,11 +183,13 @@ const Manage: React.FC = () => {
     }
 
     const deleteRestaurant = () => {
-        if (credential && username) {
+        if (credential && username && confirm("Are you sure you want to delete " + name + "?")) {
             instance.post('/delete', {"username":username, "credential":credential})
                 .then(function(response) {
                     const status = response.data.statusCode
                     if (status == 200) {
+                        document.cookie = 'credential=\'\''
+                        setCredential('')
                         router.push('/')
                     } else {
                         setErr(response.data.error)

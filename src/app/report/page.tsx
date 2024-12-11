@@ -1,5 +1,5 @@
 'use client'
-import React, { FormEvent } from 'react';
+import React, { FormEvent, Suspense } from 'react';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 import AdminReport from '@/components/AdminReport';
@@ -8,10 +8,11 @@ const instance = axios.create({
   baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
 });
 
-const Report: React.FC = () => {
+const SuspendedReport: React.FC = () => {
   const searchParams = useSearchParams()
   const username = searchParams.get('username')
   const name = searchParams.get('name')
+
 
   const [reservations, setReservations] = React.useState([])
   const [tables, setTables] = React.useState([])
@@ -45,7 +46,6 @@ const Report: React.FC = () => {
       }
     })
   }
-
 
   React.useEffect(() => {
     console.log("Tables:", tables)
@@ -89,5 +89,11 @@ const Report: React.FC = () => {
     </div>
   )
 }
+
+const Report = () => (
+  <Suspense>
+    <SuspendedReport />
+  </Suspense>
+)
 
 export default Report;

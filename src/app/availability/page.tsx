@@ -36,7 +36,7 @@ const SuspendedAvailability: React.FC = () => {
           setReservations([])
         }
       })
-    })
+    }, [credential, day, month, year])
 
     React.useEffect(() => {
       if (date) {
@@ -59,13 +59,26 @@ const SuspendedAvailability: React.FC = () => {
               ) : (
                   <h2>Loading...</h2> // Show loading while the date is being fetched
             )}
-            {reservations?.map(({code, tableid, numguests, time}) => (
-              <Reservation
-              key={code}
-              tableid={tableid}
-              time={time}
-              numguests={numguests}/>
-            ))}
+            <div className="table-container" style={{ width: '100%' }}>
+              <table className="availability-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'center' }}>
+                <thead>
+                  <tr>
+                    <th>Table</th>
+                    <th>Time</th>
+                    <th>Guests</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {reservations?.map(({code, tableid, numguests, time}) => (
+                  <Reservation
+                  key={code}
+                  tableid={tableid}
+                  time={time}
+                  numguests={numguests}/>
+                ))}
+                </tbody>
+              </table>
+            </div>
           </div>
           <button onClick={() => window.history.back()} className="back-button">
               Back

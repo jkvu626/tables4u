@@ -54,10 +54,10 @@ const Create: React.FC = () => {
         })
         .then(function (response) {
           console.log("API response received:", response.data); // Debug: Log API response
-
           const status = response.data.statusCode;
           if (status === 200) {
             console.log("Restaurant created successfully. Redirecting to /edit."); // Debug: Log successful creation
+            document.cookie = 'credential=' + response.data.credential
             setCredential(response.data.credential);
             router.push('/manage');
           } else {
