@@ -64,7 +64,6 @@ const Manage: React.FC = () => {
                 .catch((err) => {
                     setErr("Error: " + err.message);
                 })
-            }
             
             instance.post("/tables_get", {username: username})
             .then(function (response){
@@ -85,9 +84,10 @@ const Manage: React.FC = () => {
                     if (status == 200) {
                         setDates(response.data.dates)
                     } else {
-                        setErr("Error fetching restaurant beast")
+                        setErr(response.data.error)
                     }
                 })
+            }
         } 
     }, [router, credential, loading, username]);
 
@@ -186,7 +186,6 @@ const Manage: React.FC = () => {
                     if (status == 200) {
                         document.cookie = 'credential=\'\''
                         setCredential('')
-                        router.push('/')
                     } else {
                         setErr(response.data.error)
                     }
