@@ -21,8 +21,6 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
   const [err, setErr] = React.useState('')
   const router = useRouter(); // Use useRouter from next/navigation
 
-
-
   const makeReservation = () => {
     router.push('/make'); // Perform navigation to /make
   };
@@ -42,14 +40,14 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
     }
   }
 
+  const deleteReservation = () => {
+    router.push(`/delete?username=${encodeURIComponent(username)}`);
+  }
+
   const availReport = () => {
     console.log(username)
     router.push(`/report?username=${encodeURIComponent(username)}`);
   }
-
-  // const deleteReservation = () => {
-  //   router.push('/delete');
-  // }
 
   return (
     <div className="adminrestaurant">
@@ -67,7 +65,7 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
   
       <div className="actions">
         <button onClick={makeReservation}>MAKE RESERVATION</button>
-        <button>DELETE RESERVATION</button>
+        {!!active? <button onClick={deleteReservation}>DELETE RESERVATION</button> : <button className='emptybutton'/>}
         <button onClick={deleteRestaurant}>DELETE RESTAURANT</button>
         <label className='error'>{err}</label>
       </div>

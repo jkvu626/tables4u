@@ -10,7 +10,7 @@ export const handler = async (event) => {
 
     let getReservations = (username) =>{
         return new Promise((resolve, reject) => {
-            pool.query('SELECT tableid, month, day, year, time, email, code, numguests, name FROM reservations JOIN restaurants ON restaurants.username=reservations.username WHERE restaurants.username=?', [username], (error, rows) => {
+            pool.query('SELECT * FROM reservations JOIN restaurants ON restaurants.username=reservations.username WHERE restaurants.username=?', [username], (error, rows) => {
                 if(error){reject(error)}
                 resolve(rows)
             })
