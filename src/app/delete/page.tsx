@@ -28,13 +28,13 @@ const SuspendedDelete: React.FC = () => {
               const status = response.data.statusCode;
               if (status == 200) {
                 if(!response.data.reservations){
-                  router.replace('/login')
+                  router.replace('/admin')
                 }else{
                   setReservations(Object.values(response.data.reservations))
                 }
               }
               else {
-                router.replace('/login')
+                router.replace('/admin')
               }
             })
           }
