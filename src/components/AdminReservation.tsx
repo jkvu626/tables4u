@@ -2,7 +2,6 @@
 import React from 'react';
 import './components.css'
 import axios from 'axios';
-import { useAuth } from './AuthProvider';
 
 const instance = axios.create({
   baseURL: 'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/',
@@ -21,7 +20,6 @@ const Reservation: React.FC<{email: string; time: number; numguests : number; re
   refresh
 }) => {
     const [err, setErr] = React.useState('')
-    const { credential } = useAuth()
 
     const deleteReservation = () => {
         if(confirm("Are you sure you want to delete this reservation at " + restaurantName + "?")) {
@@ -48,6 +46,7 @@ const Reservation: React.FC<{email: string; time: number; numguests : number; re
         </div>
         <div className='actions'>
             <button onClick={deleteReservation}>DELETE RESERVATION</button>
+            <label className='error'>{err}</label>
         </div>
         
       </div>
