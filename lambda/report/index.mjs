@@ -34,29 +34,35 @@ export const handler = async (event) => {
         })
     }
 
-    let findDate = async (day, month, year, username) => {
+    const findDate = (startDate, endDate, username) => {
         const selectDate = `
-        SELECT * FROM reservations WHERE day = ? AND month = ? AND year = ? AND username = ?;
+            SELECT * FROM reservations
+            WHERE username = ?
+            AND DATE(CONCAT(year, '-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')))
+                BETWEEN ? AND ?;
         `;
-
         return new Promise((resolve, reject) => {
-            pool.query(selectDate, [day, month, year, username], (err, rows) => {
-                if(err) {
-                    console.error("DB Error during SELECT", err)
-                    reject()
+            pool.query(selectDate, [username, startDate, endDate], (error, results) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    resolve(rows)
+                    resolve(results);
                 }
-            }) 
-        })
-    }
+            });
+        });
+    };
 
     let response
 
     try {
         const restaurant = await getByUser(event.username)
         const tables = await getTables(restaurant.username)
-        const reservations = await findDate(event.day, event.month, event.year, restaurant.username)
+
+        const reservations = await findDate(
+            event.startDate,
+            event.endDate,
+            restaurant.username
+        )  
 
         response = {
             statusCode: 200,

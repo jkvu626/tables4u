@@ -46,7 +46,7 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
 
   const availReport = () => {
     console.log(username)
-    router.push(`/report?username=${encodeURIComponent(username)}`);
+    router.push(`/report?username=${encodeURIComponent(username)}&name=${encodeURIComponent(name)}`);
   }
 
   return (
@@ -64,7 +64,6 @@ const AdminRestaurant: React.FC<{name: string; open: number; close: number; addr
       <div className="spacer"></div>
   
       <div className="actions">
-        <button onClick={makeReservation}>MAKE RESERVATION</button>
         {!!active? <button onClick={deleteReservation}>DELETE RESERVATION</button> : <button className='emptybutton'/>}
         <button onClick={deleteRestaurant}>DELETE RESTAURANT</button>
         <label className='error'>{err}</label>
