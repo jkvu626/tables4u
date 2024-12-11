@@ -1,7 +1,7 @@
 'use client'
 import React, { FormEvent } from 'react';
 import axios from 'axios';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import AdminReport from '@/components/AdminReport';
 
 const instance = axios.create({
@@ -57,7 +57,7 @@ const Report: React.FC = () => {
     <div style={{justifyContent: 'center', width: '100%'}} className="content-create"> 
       <div style={{width: '100%'}} className="createbox">
         <div style={{alignContent: 'center'}} className='stackbox'>
-            <h1>Availabity Report for {name}</h1>
+            <h1>Availability Report for {name}</h1>
             {active ? (
                   <h2>Report for Selected Days</h2>
               ) : (
