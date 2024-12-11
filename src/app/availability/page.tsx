@@ -21,6 +21,18 @@ const SuspendedAvailability: React.FC = () => {
     const { credential } = useAuth()
 
     React.useEffect(() => {
+      if (date) {
+          setSelectedDate(date); // Set the selected date
+          const [month, day, year] = date.split('/'); // Split the date string into day, month, and year
+
+          // Remove leading zeros using parseInt
+          setDay(parseInt(day, 10)); // Converts day to integer, removing leading zero if any
+          setMonth(parseInt(month, 10)); // Converts month to integer, removing leading zero if any
+          setYear(year); // Set the year as it is
+      }
+  }, [date]);
+
+    React.useEffect(() => {
       instance.post("/finddate", {
         cred: credential,
         day: day,
@@ -37,18 +49,6 @@ const SuspendedAvailability: React.FC = () => {
         }
       })
     }, [credential, day, month, year])
-
-    React.useEffect(() => {
-      if (date) {
-          setSelectedDate(date); // Set the selected date
-          const [month, day, year] = date.split('/'); // Split the date string into day, month, and year
-
-          // Remove leading zeros using parseInt
-          setDay(parseInt(day, 10)); // Converts day to integer, removing leading zero if any
-          setMonth(parseInt(month, 10)); // Converts month to integer, removing leading zero if any
-          setYear(year); // Set the year as it is
-      }
-  }, [date]);
   
     return (
       <div style={{justifyContent: 'center'}} className="content-create">

@@ -353,13 +353,13 @@ const Manage: React.FC = () => {
                     <label className="error">{err}</label>
                 </form>      
             </div>}
-            <div style={{alignContent: 'center'}} className='stackbox'>
+            {isActive && <div style={{alignContent: 'center'}} className='stackbox'>
                 <h2>Check Availabity</h2>
                 <form className='dateform' onSubmit={handleDate}>
                     <InputField label='Date ' type='date' id='date'/>
                     <button type='submit'>Check Availability</button>
                 </form>
-            </div>
+            </div>}
         </div>
         <div className='createbox'>
             <h3>Open or Close a Future Date</h3>

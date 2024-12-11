@@ -24,6 +24,7 @@ const SuspendedReport: React.FC = () => {
     const form = e.target as HTMLFormElement
     const startDate = new Date(form.startDate.value)
     const endDate = new Date(form.endDate.value)
+    endDate.setDate(endDate.getDate() + 1)
 
     const formatDate = (date: Date) => {
       const year = date.getFullYear();
