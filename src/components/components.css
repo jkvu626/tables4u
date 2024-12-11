@@ -96,28 +96,6 @@ button:hover {
     margin-bottom: 8px; /* Increase space between labels */
     max-width: 100%; /* Make sure the labels don't overflow */
   }
-
-  .adminrestaurant .info button {
-    display: inline-block;
-    padding: 10px 20px; /* Adjust padding for button size */
-    border: 2px solid BLACK; /* Thick border, color can be adjusted */
-    border-radius: 50px; /* Makes the button rounded */
-    background-color: #FFC15E; /* Light background color */
-    color: BLACK; /* Text color matching the border */
-    font-weight: bold; /* Makes the text bold */
-    font-size: 16px; /* Adjust font size */
-    text-align: center; /* Centers text */
-    text-decoration: none; /* Removes underline if used on links */
-    cursor: pointer; /* Pointer cursor for button */
-    transition: all 0.3s ease; /* Smooth hover effect */
-  }
-
-  .adminrestaurant .info button:hover {
-    background-color: #b17d28; /* Background changes on hover */
-    color: BLACK; /* Text color changes on hover */
-    border-color: BLACK; /* Darker border on hover */
-  }
-    
   
   .adminrestaurant .actions {
     display: flex;
@@ -125,35 +103,6 @@ button:hover {
     align-items: center;
     gap: 15px; /* Increase space between buttons */
     width: auto; /* Allow buttons to adjust based on content */
-  }
-  
-  .adminrestaurant .button-container {
-    display: flex;
-    gap: 15px; /* Space between buttons */
-  }
-  
-  .adminrestaurant .button-container button {
-    padding: 12px 18px; /* Increase padding for larger buttons */
-    font-size: 16px; /* Increase font size */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    width: auto; /* Allow buttons to fit their content */
-    text-align: center;
-  }
-  
-  .adminrestaurant .button-container button:hover {
-    background-color: #0056b3;
-  }
-  
-  .adminrestaurant .button-container button:last-child {
-    margin-right: 0; /* Ensure no extra space after the last button */
-  }
-  
-  .adminrestaurant .spacer {
-    width: 20px; /* Adjust the value as needed */
   }
   
   .table-container {
