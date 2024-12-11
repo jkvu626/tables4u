@@ -24,15 +24,24 @@ const SuspendedReport: React.FC = () => {
     const form = e.target as HTMLFormElement
     const startDate = new Date(form.startDate.value)
     const endDate = new Date(form.endDate.value)
+
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+  
+    const formatStartDate = formatDate(startDate);
+    const formatEndDate = formatDate(endDate);
+  
+    console.log(formatStartDate); 
+    console.log(formatEndDate);
     
     instance.post("/report", {
       username: username,
-      startday: startDate.getDate() + 1,
-      startmonth: startDate.getMonth() + 1,
-      startyear: startDate.getFullYear(),
-      endday: endDate.getDate() + 1,
-      endmonth: endDate.getMonth() + 1,
-      endyear: endDate.getFullYear()
+      startDate: formatStartDate,
+      endDate: formatEndDate
     }).then(function (response) {
       const status = response.data.statusCode;
       if (status == 200) {

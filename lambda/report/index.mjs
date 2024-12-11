@@ -34,32 +34,23 @@ export const handler = async (event) => {
         })
     }
 
-    let findDate = async (startday, startmonth, startyear, endday, endmonth, endyear, username) => {
-        // Prepare SQL query with dynamic values
+    const findDate = (startDate, endDate, username) => {
         const selectDate = `
-        SELECT * FROM reservations
-        WHERE username = ?
-        AND (
-            (year = ? AND month = ? AND day >= ? AND day <= ?) 
-            OR
-            (year = ? AND month = ? AND day >= ? AND day <= ?) 
-        );
+            SELECT * FROM reservations
+            WHERE username = ?
+            AND DATE(CONCAT(year, '-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')))
+                BETWEEN ? AND ?;
         `;
-
         return new Promise((resolve, reject) => {
-            pool.query(selectDate, [
-                username,                // Bind username
-                startyear, startmonth, startday, endday,  // Bind start and end date info for the start year and month
-                endyear, endmonth, startday, endday   // Bind start and end date info for the end year and month
-            ], (error, results) => {
+            pool.query(selectDate, [username, startDate, endDate], (error, results) => {
                 if (error) {
-                    reject(error);  // Reject if there's an error
+                    reject(error);
                 } else {
-                    resolve(results);  // Resolve with the query results
+                    resolve(results);
                 }
             });
         });
-    }
+    };
 
     let response
 
@@ -68,12 +59,8 @@ export const handler = async (event) => {
         const tables = await getTables(restaurant.username)
 
         const reservations = await findDate(
-            event.startday, 
-            event.startmonth, 
-            event.startyear, 
-            event.endday,
-            event.endmonth,
-            event.endyear,
+            event.startDate,
+            event.endDate,
             restaurant.username
         )  
 
