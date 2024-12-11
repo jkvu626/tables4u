@@ -23,6 +23,7 @@ const SuspendedReport: React.FC = () => {
     
     const form = e.target as HTMLFormElement
     const startDate = new Date(form.startDate.value)
+    startDate.setDate(startDate.getDate()+1)
     const endDate = new Date(form.endDate.value)
     endDate.setDate(endDate.getDate() + 1)
 
