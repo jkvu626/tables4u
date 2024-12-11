@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation'; // Import from next/navigation
 import axios from 'axios';
@@ -10,7 +10,7 @@ const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
 })
 
-const Delete: React.FC = () => {
+const SuspendedDelete: React.FC = () => {
     const [reservations, setReservations] = React.useState([]);
     const [refresh, setRefresh] = React.useState(0)
     const searchParams = useSearchParams()
@@ -39,7 +39,7 @@ const Delete: React.FC = () => {
             })
           }
         }
-      }, [refresh, router, credential, loading])
+      }, [refresh, router, credential, loading, username])
 
     return (
         <div>
@@ -62,5 +62,11 @@ const Delete: React.FC = () => {
     </div>
   </div>
 );}
+
+const Delete = () => (
+  <Suspense>
+    <SuspendedDelete/>
+  </Suspense>
+)
 
 export default Delete
