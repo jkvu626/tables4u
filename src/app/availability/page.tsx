@@ -12,43 +12,33 @@ const instance = axios.create({
 const SuspendedAvailability: React.FC = () => {
     const searchParams = useSearchParams(); // Access query parameters
     const date = searchParams.get('date'); // Get the 'date' query parameter
-    const [day, setDay] = React.useState<number | null>(null);  // Change type to number
-    const [month, setMonth] = React.useState<number | null>(null); // Change type to number
-    const [year, setYear] = React.useState<string | null>(null);
 
     const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
     const [reservations, setReservations] = React.useState([])
     const { credential } = useAuth()
 
     React.useEffect(() => {
-      instance.post("/finddate", {
-        cred: credential,
-        day: day,
-        month: month,
-        year: year
-      }).then(function (response){
-        const status = response.data.statusCode;
-        if (status == 200) {
-          console.log("Reservations Changed")
-          setReservations(Object.values(response.data.reservations))
-        } else {
-          console.log(response.data.err)
-          setReservations([])
-        }
-      })
-    }, [credential, day, month, year])
-
-    React.useEffect(() => {
       if (date) {
           setSelectedDate(date); // Set the selected date
           const [month, day, year] = date.split('/'); // Split the date string into day, month, and year
 
-          // Remove leading zeros using parseInt
-          setDay(parseInt(day, 10)); // Converts day to integer, removing leading zero if any
-          setMonth(parseInt(month, 10)); // Converts month to integer, removing leading zero if any
-          setYear(year); // Set the year as it is
+          instance.post("/finddate", {
+            cred: credential,
+            day: day,
+            month: month,
+            year: year
+          }).then(function (response){
+            const status = response.data.statusCode;
+            if (status == 200) {
+              console.log("Reservations Changed")
+              setReservations(Object.values(response.data.reservations))
+            } else {
+              console.log(response.data.err)
+              setReservations([])
+            }
+          })
       }
-  }, [date]);
+  }, [credential, date]);
   
     return (
       <div style={{justifyContent: 'center'}} className="content-create">
@@ -63,19 +53,19 @@ const SuspendedAvailability: React.FC = () => {
               <table className="availability-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th>Table</th>
                     <th>Time</th>
+                    <th>Table</th>
                     <th>Guests</th>
                   </tr>
                 </thead>
                 <tbody>
-                {reservations?.map(({code, tableid, numguests, time}) => (
-                  <Reservation
-                  key={code}
-                  tableid={tableid}
-                  time={time}
-                  numguests={numguests}/>
-                ))}
+                  {reservations.map(({code, tableid, numguests, time}) => (
+                    <Reservation
+                    key={code}
+                    tableid={tableid}
+                    time={time}
+                    numguests={numguests}/>
+                  ))}
                 </tbody>
               </table>
             </div>

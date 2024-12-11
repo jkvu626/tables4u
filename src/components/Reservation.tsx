@@ -7,8 +7,8 @@ const Reservation: React.FC<{tableid: number; time: number; numguests : number}>
   numguests
 }) => (
   <tr className="res">
+    <td>{time}:00</td>
     <td>{tableid}</td>
-    <td>{time}</td>
     <td>{numguests}</td>
   </tr>
 );

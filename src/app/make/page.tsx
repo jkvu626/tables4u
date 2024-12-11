@@ -63,7 +63,7 @@ const MakeSuspended: React.FC = () => {
               Date: <input type="date" id='date'/>
             </label>
             <label>
-              Time: <input type="text" id='time' pattern='[0-2]?[0-9]:00' placeholder='XX:00'/>
+              Time: <input type="text" id='time' pattern='[0-2]?[0-9]:00' placeholder='24:00'/>
             </label>
             <label>
               Number of Guests: <input type="number" id='seats' defaultValue={1}/>
