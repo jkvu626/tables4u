@@ -82,8 +82,16 @@ const generateData = (tables: Table[], reservations: Reservation[]): TableRow[] 
         )
         .map((r) => r.tableid) 
     ).size; 
-    row.utilization = totalSeats === 0 ? '0%' : `${(totalReservedTables / tables.length * 100).toFixed(2)}%`;
-    row.availability = `${(row.sum / totalSeats * 100).toFixed(2)}%`;
+
+    const totalReservedSeats = reservations.filter((r) => (
+      r.time === time &&
+      r.day === day &&
+      r.month === month &&
+      r.year === year
+    )).reduce((total, r) => total + r.numguests, 0);
+
+    row.utilization = `${(totalReservedSeats / totalSeats * 100).toFixed(0)}%`;
+    row.availability = totalReservedTables == tables.length ? '0' : `${((tables.length - totalReservedTables) / tables.length * 100).toFixed(0)}%`;
   }
 
   return data;
