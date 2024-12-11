@@ -264,13 +264,12 @@ const Manage: React.FC = () => {
 
 
     const handleOpen = () => {
-        const credential = document.cookie.split("; ").find((row) => row.startsWith("credential="))?.split("=")[1];
-        const day = document.getElementById('day') as HTMLInputElement
-        const month = document.getElementById('month') as HTMLInputElement
-        const year = document.getElementById('year') as HTMLInputElement
+        const futuredate = document.getElementById('futuredate') as HTMLInputElement
 
-        if (day.value && month.value && year.value) {
-            instance.post('/open', {"username": username, "credential": credential, "day": day.value, "month": month.value, "year": year.value})
+        if (futuredate.value) {
+            console.log(futuredate.value)
+            const [year, month, day] = futuredate.value.split('-')
+            instance.post('/open', {"username": username, "credential": credential, "day": parseInt(day, 10), "month": parseInt(month, 10), "year": parseInt(year, 10)})
                 .then(function(response) {
                     const status = response.data.statusCode;
                     if (status == 200) {
@@ -288,12 +287,12 @@ const Manage: React.FC = () => {
     }
 
     const handleClose = () => {
-        const day = document.getElementById('day') as HTMLInputElement
-        const month = document.getElementById('month') as HTMLInputElement
-        const year = document.getElementById('year') as HTMLInputElement
+        const futuredate = document.getElementById('futuredate') as HTMLInputElement
 
-        if (day.value && month.value && year.value) {
-            instance.post('/close', {"username": username, "credential": credential, "day": day.value, "month": month.value, "year": year.value})
+        if (futuredate.value) {
+            console.log(futuredate.value)
+            const [year, month, day] = futuredate.value.split('-')
+            instance.post('/close', {"username": username, "credential": credential, "day": parseInt(day, 10), "month": parseInt(month, 10), "year": parseInt(year, 10)})
                 .then(function(response) {
                     const status = response.data.statusCode;
                     if (status == 200) {
@@ -311,9 +310,10 @@ const Manage: React.FC = () => {
     }
 
     const handleDate = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); 
+        e.preventDefault();
+        const [year, month, day] = e.currentTarget.date.value.split('-')
         console.log(e.currentTarget.date.value)
-        router.push(`/availability?date=${encodeURIComponent(e.currentTarget.date.value)}`);
+        router.push(`/availability?date=${encodeURIComponent(month+'/'+day+'/'+year)}`);
     };
 
 
@@ -356,16 +356,14 @@ const Manage: React.FC = () => {
             <div style={{alignContent: 'center'}} className='stackbox'>
                 <h2>Check Availabity</h2>
                 <form className='dateform' onSubmit={handleDate}>
-                    <InputField label='Date ' placeholder='XX/XX/XXXX' id='date'/>
+                    <InputField label='Date ' type='date' id='date'/>
                     <button type='submit'>Check Availability</button>
                 </form>
             </div>
         </div>
         <div className='createbox'>
             <h3>Open or Close a Future Date</h3>
-            <InputField label='Day ' id='day' placeholder=''/>
-            <InputField label='Month ' id='month' placeholder=''/>
-            <InputField label='Year ' id='year' placeholder=''/>
+            <InputField label='Date ' id='futuredate' type='date'/>
             <button onClick={handleOpen}>Open</button>
             <button onClick={handleClose}>Close</button>
             <label className='error'>{closeErr}</label>

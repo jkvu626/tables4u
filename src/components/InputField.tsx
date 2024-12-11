@@ -1,4 +1,4 @@
-const InputField: React.FC<{ label: string; placeholder: string; type?: string; defaultValue?: string|number; id?: string}> = ({ 
+const InputField: React.FC<{ label: string; placeholder?: string; type?: string; defaultValue?: string|number; id?: string}> = ({ 
     label, 
     placeholder, 
     type = "text",
