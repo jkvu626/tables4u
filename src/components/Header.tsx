@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         <div className="header-buttons">
           <Link href='/login' className="header-button" onClick={() => {
             if(credential){
-              document.cookie='credential='
+              document.cookie='credential=\'\''
               document.cookie='admin=false'
               setCredential('')
               setAdmin(false)
