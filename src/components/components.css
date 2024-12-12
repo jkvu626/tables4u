@@ -9,6 +9,13 @@
     border-radius: 8px; /* Optional: Rounded corners */
 }
 
+.quarterblock {
+  width: 25%;
+}
+
+.threequarterblock {
+  width: 75%
+}
 /* Name and address container */
 .name-address {
     display: flex;
