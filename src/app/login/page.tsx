@@ -14,7 +14,7 @@ const Login: React.FC = () => {
   const [load, setLoad] = React.useState({visibility: 'hidden'} as React.CSSProperties)
   const [err, setErr] = React.useState('');
 
-  const { setCredential } = useAuth()
+  const { setCredential, setAdmin } = useAuth()
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,6 +27,8 @@ const Login: React.FC = () => {
         document.cookie = 'credential=' + response.data.credential
         setCredential(response.data.credential)
         if(username.value == 'admin'){
+          document.cookie='admin=true'
+          setAdmin(true)
           router.push('/admin')
         }else{
           router.push('/manage');

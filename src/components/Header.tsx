@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useAuth } from './AuthProvider';
 
 const Header: React.FC = () => {
-  const { credential, setCredential } = useAuth()
+  const { credential, setCredential, setAdmin } = useAuth()
   return(
     <header className="header">
       <div className="header-content">
@@ -12,7 +12,14 @@ const Header: React.FC = () => {
           <Link href="/"  style={{ textDecoration: 'none', color: 'inherit'}}>Tables<span className="highlight">4U</span></Link>
         </h1>
         <div className="header-buttons">
-          <Link href="/login" className="header-button" onClick={() => {if(credential){setCredential(''); document.cookie='credential=\'\''}}}>
+          <Link href='/login' className="header-button" onClick={() => {
+            if(credential){
+              document.cookie='credential=\'\''
+              document.cookie='admin=false'
+              setCredential('')
+              setAdmin(false)
+            }
+          }}>
             {credential ? 'Log Out' : 'Log In'}
           </Link>
           {!credential &&

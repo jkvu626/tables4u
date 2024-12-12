@@ -5,7 +5,9 @@ import React from 'react';
 import Restaurant from '@/components/Restaurant';
 import axios from 'axios';
 import InputField from '@/components/InputField'
-
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/AuthProvider';
+    
 const instance = axios.create({
   baseURL:'https://92ouj9flzf.execute-api.us-east-2.amazonaws.com/tables4u/'
 })
@@ -23,6 +25,14 @@ const Home: React.FC = () => {
   const [closedates, setClosedDates] = React.useState<IClosedDate[]>([]);
   const [filterName, setFilterName] = React.useState('')
   const [filterTime, setFilterTime] = React.useState(0)
+  const router = useRouter();
+  const { credential, loading, admin} = useAuth()
+
+  React.useEffect(() => {
+    if(!loading && credential){
+      router.replace(admin ? '/admin' : '/manage')
+    }
+  }, [credential, loading, router, admin])
 
   React.useEffect(() => {
     instance.get("/restaurants").then(function (response){

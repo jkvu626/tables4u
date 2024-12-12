@@ -1,21 +1,15 @@
+'use client'
 import React from 'react';
 import Link from 'next/link';
+import { useAuth } from './AuthProvider';
 
 const Navbar: React.FC = () => {
+  const { admin, credential } = useAuth()
   return(
     <nav className="navbar">
-      <Link href="/" className="nav-link">
-        Reservations
-      </Link>
-      <Link href="/search" className="nav-link">
-        Search
-      </Link>
-      <Link href="/admin" className="nav-link">
-        Admin
-      </Link>
-      <Link href="/manage" className="nav-link">
-        Manage
-      </Link>
+      {<Link href={credential ? (admin ? '/admin' : '/manage') : '/'} className="nav-link">
+        {credential ? (admin ? 'Admin Dashboard' : 'Restaurant Dashboard') : 'Home'}
+      </Link>}
     </nav>
   );
 }
