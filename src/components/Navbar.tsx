@@ -7,15 +7,9 @@ const Navbar: React.FC = () => {
   const { admin, credential } = useAuth()
   return(
     <nav className="navbar">
-      {admin && <Link href="/admin" className="nav-link">
-        Admin
+      {<Link href={credential ? (admin ? '/admin' : '/manage') : '/'} className="nav-link">
+        {credential ? (admin ? 'Admin Dashboard' : 'Restaurant Dashboard') : 'Home'}
       </Link>}
-      {!admin && credential && <Link href="/manage" className="nav-link">
-        Manage
-      </Link>}
-      <Link href="/search" className="nav-link">
-        Search restaurants
-      </Link>
     </nav>
   );
 }

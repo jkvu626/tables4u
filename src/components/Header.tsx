@@ -12,12 +12,14 @@ const Header: React.FC = () => {
           <Link href="/"  style={{ textDecoration: 'none', color: 'inherit'}}>Tables<span className="highlight">4U</span></Link>
         </h1>
         <div className="header-buttons">
-          <Link href="/login" className="header-button" onClick={() => {
+          <Link href='/login' className="header-button" onClick={() => {
             if(credential){
+              document.cookie='credential=\'\''
+              document.cookie='admin=false'
               setCredential('')
               setAdmin(false)
-              document.cookie='credential=\'\''
-              document.cookie='admin=false'}}}>
+            }
+          }}>
             {credential ? 'Log Out' : 'Log In'}
           </Link>
           {!credential &&
