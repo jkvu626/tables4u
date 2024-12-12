@@ -66,36 +66,32 @@ const Manage: React.FC = () => {
                 .catch((err) => {
                     setErr("Error: " + err.message);
                 })
+            
+            instance.post("/tables_get", {username: username})
+            .then(function (response){
+                console.log(response.data.tables)
+                const status = response.data.statusCode;
+                if (status == 200) {
+                    setTables(Object.values(response.data.tables))
+                } else {
+                    console.log(response.data.err)
+                    console.log("TABLE ERROR")
+                    setTables([])
+                }
+            })
+
+            instance.post('/days_get', {"credential": credential})
+                .then(function (response) {
+                    const status = response.data.statusCode;
+                    if (status == 200) {
+                        setDates(response.data.dates)
+                    } else {
+                        setErr(response.data.error)
+                    }
+                })
             }
         } 
-    }, [router, credential, loading, admin]);
-
-    React.useEffect(() => {
-        if (!loading) {
-        instance.post('/days_get', {"credential": credential})
-        .then(function (response) {
-            const status = response.data.statusCode;
-            if (status == 200) {
-                setDates(response.data.dates)
-            } else {
-                setErr("Error fetching restaurant beast")
-            }
-        })}}, [credential, loading, router])
-
-    React.useEffect(() => {
-        instance.post("/tables_get", {username: username})
-        .then(function (response){
-            console.log(response.data.tables)
-            const status = response.data.statusCode;
-            if (status == 200) {
-                setTables(Object.values(response.data.tables))
-            } else {
-                console.log(response.data.err)
-                console.log("TABLE ERROR")
-                setTables([])
-            }
-        })
-    }, [username])
+    }, [router, credential, loading, username]);
 
     React.useEffect(() => {
         if (username) {
@@ -192,7 +188,6 @@ const Manage: React.FC = () => {
                     if (status == 200) {
                         document.cookie = 'credential=\'\''
                         setCredential('')
-                        router.push('/')
                     } else {
                         setErr(response.data.error)
                     }
@@ -334,7 +329,7 @@ const Manage: React.FC = () => {
             </div>}
             <div className='stackbox'>
                 <h2>Tables</h2>
-                {tables?.map(({tableid, seats}) => (
+                {tables.map(({tableid, seats}) => (
                     <Table
                     key={tableid}
                     tableid={tableid}

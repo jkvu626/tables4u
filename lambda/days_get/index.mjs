@@ -33,20 +33,12 @@ export const handler = async (event) => {
     let response
 
     try{
-        const username = getUsername(event.credential)
+        const username = await getUsername(event.credential)
         const result = await getDates(username)
-        if (result) {
-            response = {
-                statusCode: 200,
-                dates: result
-            }
-        } else {
-            response = {
-                statusCode: 400,
-                error: "invalid credential"
-            }
+        response = {
+            statusCode: 200,
+            dates: result
         }
-        
     }catch(err){
         response = {
             statusCode: 400,
