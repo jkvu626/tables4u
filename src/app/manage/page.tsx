@@ -91,7 +91,7 @@ const Manage: React.FC = () => {
                 })
             }
         } 
-    }, [router, credential, loading, username]);
+    }, [router, credential, loading, username, admin]);
 
     React.useEffect(() => {
         if (username) {
